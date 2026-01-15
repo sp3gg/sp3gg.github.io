@@ -9,8 +9,7 @@
   <style>
     body {
       /* background image settings */
-      /* uses relative path instead of raw.githubusercontent */
-      background-image: url('628b47d525-f948-18b8-52d9-6985c01b73.jpg');
+      background-image: url('https://raw.githubusercontent.com/sp3gg/sp3gg.github.io/refs/heads/main/628b47d525-f948-18b8-52d9-6985c01b73.jpg');
       background-size: cover;
       background-repeat: repeat;
       background-attachment: fixed;
@@ -82,10 +81,10 @@
       margin-top: 10px;
     }
 
-    /* ===== SLIDING ALBUM STRIP WIDGET ===== */
+    /* ===== DOUBLE SLIDING ALBUM STRIPS ===== */
     .album-strip-wrapper {
       width: 100%;
-      overflow: hidden;          /* hides overflow so it looks like a window */
+      overflow: hidden;
       margin-top: 10px;
       padding: 10px 0;
       border-top: 2px solid #00ffd5;
@@ -95,7 +94,6 @@
     .album-strip {
       display: flex;
       gap: 16px;
-      animation: slide-albums 25s linear infinite;
     }
 
     .album-strip img {
@@ -108,13 +106,24 @@
       background: #000;
     }
 
-    @keyframes slide-albums {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-50%); /* slides to the left */
-      }
+    /* Top strip: normal left → right scroll */
+    .strip-top {
+      animation: slide-left 25s linear infinite;
+    }
+
+    /* Bottom strip: reverse direction */
+    .strip-bottom {
+      animation: slide-right 25s linear infinite;
+    }
+
+    @keyframes slide-left {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @keyframes slide-right {
+      0%   { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
     }
   </style>
 </head>
@@ -135,22 +144,41 @@
       Just punching in bs here to see what's up and where everything is alligned on the page.
     </div>
 
-    <!-- SLIDING ALBUM ART STRIP -->
+    <!-- TOP SLIDING ALBUM ART STRIP -->
     <div class="album-strip-wrapper">
-      <div class="album-strip">
+      <div class="album-strip strip-top">
         <!-- First pass of album covers -->
-        <img src="when the lights go out cover.jpg" alt="Album 1">
-        <img src="kotms cover.jpg" alt="Album 2">
-        <img src="World cover.jpg" alt="Album 3">
-        <img src="Tremendous sea of love cover.jpg" alt="Album 4">
-        <img src="Nurture cover.jpg" alt="Album 5">
+        <img src="when the lights go out cover.jpg" alt="When the Lights Go Out">
+        <img src="kotms cover.jpg" alt="KOTMS">
+        <img src="World cover.jpg" alt="World">
+        <img src="Tremendous sea of love cover.jpg" alt="Tremendous Sea of Love">
+        <img src="Nurture cover.jpg" alt="Nurture">
 
-        <!-- Repeat the same covers again for smooth loop -->
-        <img src="Junk cover.jpg" alt="Album 6">
-        <img src="In Rainbows cover.jpg" alt="Album 7">
-        <img src="Gossamer cover.jpg" alt="Album 8">
-        <img src="Getting Killed cover.jpg" alt="Album 9">
-        <img src="Deathconsciousness cover.jpg" alt="Album 10">
+        <!-- Repeat for smooth loop -->
+        <img src="when the lights go out cover.jpg" alt="When the Lights Go Out">
+        <img src="kotms cover.jpg" alt="KOTMS">
+        <img src="World cover.jpg" alt="World">
+        <img src="Tremendous sea of love cover.jpg" alt="Tremendous Sea of Love">
+        <img src="Nurture cover.jpg" alt="Nurture">
+      </div>
+    </div>
+
+    <!-- BOTTOM SLIDING ALBUM ART STRIP -->
+    <div class="album-strip-wrapper">
+      <div class="album-strip strip-bottom">
+        <!-- First pass of album covers -->
+        <img src="Junk cover.jpg" alt="Junk">
+        <img src="In Rainbows cover.jpg" alt="In Rainbows">
+        <img src="Gossamer cover.jpg" alt="Gossamer">
+        <img src="Getting Killed cover.jpg" alt="Getting Killed">
+        <img src="Deathconsciousness cover.jpg" alt="Deathconsciousness">
+
+        <!-- Repeat for smooth loop -->
+        <img src="Junk cover.jpg" alt="Junk">
+        <img src="In Rainbows cover.jpg" alt="In Rainbows">
+        <img src="Gossamer cover.jpg" alt="Gossamer">
+        <img src="Getting Killed cover.jpg" alt="Getting Killed">
+        <img src="Deathconsciousness cover.jpg" alt="Deathconsciousness">
       </div>
     </div>
 
