@@ -25,11 +25,49 @@
       overflow-x: hidden;
     }
 
-    a {
-      color: #ff7ac4;
+    a { color: #ff7ac4; }
+
+    /* ===== STARFIELD BACKGROUND ===== */
+    .star-field {
+      position: fixed;
+      inset: 0;
+      background: #000000;
+      overflow: hidden;
+      z-index: 0;
     }
 
-    /* CENTER PANEL — PASTEL GRADIENT */
+    .star-field::before,
+    .star-field::after {
+      content: "";
+      position: absolute;
+      inset: -200px 0 0 0;
+      background-image:
+        radial-gradient(2px 2px at 10px 20px, #ffffff, transparent),
+        radial-gradient(2px 2px at 50px 80px, #ffffff, transparent),
+        radial-gradient(2px 2px at 130px 40px, #ffffff, transparent),
+        radial-gradient(2px 2px at 90px 120px, #ffffff, transparent),
+        radial-gradient(2px 2px at 170px 160px, #ffffff, transparent),
+        radial-gradient(2px 2px at 30px 200px, #ffffff, transparent),
+        radial-gradient(2px 2px at 200px 20px, #ffffff, transparent),
+        radial-gradient(2px 2px at 240px 100px, #ffffff, transparent);
+      background-size: 250px 250px;
+      opacity: 0.8;
+      animation: move-stars 40s linear infinite;
+    }
+
+    .star-field::after {
+      opacity: 0.5;
+      background-size: 300px 300px;
+      animation-duration: 70s;
+      animation-direction: reverse;
+    }
+
+    @keyframes move-stars {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-250px); }
+    }
+
+    /* CENTER PANEL */
     .center-panel {
       position: fixed;
       top: 0;
@@ -136,7 +174,7 @@
     @keyframes slide-left { 0% {transform: translateX(0);} 100% {transform: translateX(-50%);} }
     @keyframes slide-right { 0% {transform: translateX(-50%);} 100% {transform: translateX(0);} }
 
-    /* ===== LIVE FEED WIDGET ===== */
+    /* ===== LIVE FEED + WEATHER WIDGET ===== */
     .weather-widget {
       position: fixed;
       top: 80px;
@@ -168,7 +206,6 @@
       background: #000;
     }
 
-    /* ===== WEATHER TEXT BELOW FEED ===== */
     .weather-data {
       font-size: 0.65rem;
       text-align: center;
@@ -176,10 +213,10 @@
       color: #333;
     }
 
-    /* ===== CLOCK WIDGET ===== */
+    /* ===== CLOCK WIDGET (MOVED LOWER) ===== */
     .clock-widget {
       position: fixed;
-      top: 360px;
+      top: 420px; /* ⬅ more space now! */
       left: 40px;
       width: 320px;
       background: rgba(255,255,255,0.9);
@@ -215,10 +252,12 @@
       color: #555;
       margin-top: -2px;
     }
+
   </style>
 </head>
 <body>
 
+  <div class="star-field"></div>
   <div class="center-panel"></div>
 
   <div class="content-container">
@@ -271,16 +310,18 @@
     </div>
   </div>
 
-  <!-- LIVE FEED WIDGET -->
+  <!-- LIVE FEED + WEATHER -->
   <div class="weather-widget">
     <div class="weather-widget-title">☆ What Spegg Sees Outside ☆</div>
     <iframe class="weather-frame"
-      src="https://www.youtube.com/embed/-MWn7E2O-_o?autoplay=1&mute=1&rel=0">
+      src="https://www.youtube.com/embed/-MWn7E2O-_o?autoplay=1&mute=1&rel=0"
+      title="Live Cam"
+      allowfullscreen>
     </iframe>
     <div class="weather-data" id="weather"></div>
   </div>
 
-  <!-- CLOCK WIDGET -->
+  <!-- CLOCK -->
   <div class="clock-widget">
     <div class="clock-widget-title">♡ Raleigh Time ♡</div>
     <div class="clock-display" id="clock"></div>
@@ -289,8 +330,6 @@
 
   <!-- WEATHER + CLOCK SCRIPT -->
   <script>
-
-    /* CLOCK */
     function updateRaleighClock() {
       const time = new Date().toLocaleString("en-US", {
         timeZone: "America/New_York",
@@ -315,52 +354,59 @@
     setInterval(updateRaleighClock, 1000);
     updateRaleighClock();
 
-
-    /* WEATHER */
     async function updateWeather() {
-      const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=35.78&longitude=-78.64&current_weather=true&temperature_unit=fahrenheit");
-      const data = await res.json();
+      try {
+        const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=35.78&longitude=-78.64&current_weather=true&temperature_unit=fahrenheit");
+        const data = await res.json();
 
-      const temp = Math.round(data.current_weather.temperature);
-      const code = data.current_weather.weathercode;
+        const temp = Math.round(data.current_weather.temperature);
+        const code = data.current_weather.weathercode;
 
-      const conditions = {
-        0: "Sunny",
-        1: "Mainly Sunny",
-        2: "Partly Cloudy",
-        3: "Cloudy",
-        45: "Foggy",
-        48: "Icy Fog",
-        51: "Light Drizzle",
-        61: "Light Rain",
-        63: "Rain",
-        65: "Heavy Rain",
-        71: "Snow",
-        80: "Showers",
-        95: "Thunderstorms"
-      }[code] || "Weather";
+        const conditionMap = {
+          0: "Sunny",
+          1: "Mainly Sunny",
+          2: "Partly Cloudy",
+          3: "Cloudy",
+          45: "Foggy",
+          48: "Icy Fog",
+          51: "Light Drizzle",
+          61: "Light Rain",
+          63: "Rain",
+          65: "Heavy Rain",
+          71: "Snow",
+          80: "Showers",
+          95: "Thunderstorms"
+        };
 
-      const emoji = {
-        Sunny: "☀️",
-        "Mainly Sunny": "🌤️",
-        "Partly Cloudy": "⛅",
-        Cloudy: "☁️",
-        Foggy: "🌫️",
-        "Light Drizzle": "🌦️",
-        "Light Rain": "🌧️",
-        Rain: "🌧️",
-        "Heavy Rain": "⛈️",
-        Showers: "🌦️",
-        Thunderstorms: "⛈️",
-        Snow: "❄️"
-      }[conditions] || "🌡️";
+        const conditions = conditionMap[code] || "Weather";
 
-      document.getElementById("weather").textContent = `${emoji} ${temp}°F — ${conditions}`;
+        const emojiMap = {
+          "Sunny": "☀️",
+          "Mainly Sunny": "🌤️",
+          "Partly Cloudy": "⛅",
+          "Cloudy": "☁️",
+          "Foggy": "🌫️",
+          "Icy Fog": "🌫️",
+          "Light Drizzle": "🌦️",
+          "Light Rain": "🌧️",
+          "Rain": "🌧️",
+          "Heavy Rain": "⛈️",
+          "Showers": "🌦️",
+          "Thunderstorms": "⛈️",
+          "Snow": "❄️"
+        };
+
+        const emoji = emojiMap[conditions] || "🌡️";
+
+        document.getElementById("weather").textContent =
+          `${emoji} ${temp}°F — ${conditions}`;
+      } catch {
+        document.getElementById("weather").textContent = "🌡️ Weather unavailable";
+      }
     }
 
     updateWeather();
-    setInterval(updateWeather, 900000); // 15 min refresh
-
+    setInterval(updateWeather, 900000);
   </script>
 
 </body>
