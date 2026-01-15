@@ -67,7 +67,7 @@
       100% { transform: translateY(-250px); }
     }
 
-    /* CENTER PANEL */
+    /* ===== GLASS CENTER PANEL ===== */
     .center-panel {
       position: fixed;
       top: 0;
@@ -77,13 +77,15 @@
       width: 1000px;
       background: linear-gradient(
         180deg,
-        rgba(255, 214, 240, 0.96),
-        rgba(198, 231, 255, 0.96)
+        rgba(255, 214, 240, 0.35),
+        rgba(198, 231, 255, 0.35)
       );
+      backdrop-filter: blur(6px);
       z-index: 1;
       pointer-events: none;
     }
 
+    /* ===== CONTENT ===== */
     .content-container {
       max-width: 700px;
       margin: 0 auto;
@@ -213,10 +215,10 @@
       color: #333;
     }
 
-    /* ===== CLOCK WIDGET (MOVED LOWER) ===== */
+    /* ===== CLOCK WIDGET ===== */
     .clock-widget {
       position: fixed;
-      top: 420px; /* ⬅ more space now! */
+      top: 420px;
       left: 40px;
       width: 320px;
       background: rgba(255,255,255,0.9);
@@ -315,9 +317,7 @@
     <div class="weather-widget-title">☆ What Spegg Sees Outside ☆</div>
     <iframe class="weather-frame"
       src="https://www.youtube.com/embed/-MWn7E2O-_o?autoplay=1&mute=1&rel=0"
-      title="Live Cam"
-      allowfullscreen>
-    </iframe>
+      allowfullscreen></iframe>
     <div class="weather-data" id="weather"></div>
   </div>
 
@@ -328,7 +328,6 @@
     <div class="date-display" id="date"></div>
   </div>
 
-  <!-- WEATHER + CLOCK SCRIPT -->
   <script>
     function updateRaleighClock() {
       const time = new Date().toLocaleString("en-US", {
@@ -378,8 +377,6 @@
           95: "Thunderstorms"
         };
 
-        const conditions = conditionMap[code] || "Weather";
-
         const emojiMap = {
           "Sunny": "☀️",
           "Mainly Sunny": "🌤️",
@@ -396,6 +393,7 @@
           "Snow": "❄️"
         };
 
+        const conditions = conditionMap[code] || "Weather";
         const emoji = emojiMap[conditions] || "🌡️";
 
         document.getElementById("weather").textContent =
@@ -411,5 +409,3 @@
 
 </body>
 </html>
-
-
