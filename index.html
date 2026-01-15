@@ -31,7 +31,7 @@
       color: #00ffd5;
     }
 
-    /* vertical panel behind content (now solid black) */
+    /* vertical panel behind content (solid black) */
     .center-panel {
       position: fixed;
       top: 0;
@@ -81,6 +81,40 @@
       margin-top: 10px;
     }
 
+    /* ===== SLIDING ALBUM STRIP WIDGET ===== */
+    .album-strip-wrapper {
+      width: 100%;
+      overflow: hidden;          /* hides overflow so it looks like a window */
+      margin-top: 10px;
+      padding: 10px 0;
+      border-top: 2px solid #00ffd5;
+      border-bottom: 2px solid #00ffd5;
+    }
+
+    .album-strip {
+      display: flex;
+      gap: 16px;
+      animation: slide-albums 25s linear infinite;
+    }
+
+    .album-strip img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00ffd5;
+      border: 2px solid #00ffd5;
+      background: #000;
+    }
+
+    @keyframes slide-albums {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%); /* slides to the left */
+      }
+    }
   </style>
 </head>
 <body>
@@ -98,6 +132,25 @@
 
     <div class="info-card">
       Just punching in bs here to see what's up and where everything is alligned on the page.
+    </div>
+
+    <!-- SLIDING ALBUM ART STRIP -->
+    <div class="album-strip-wrapper">
+      <div class="album-strip">
+        <!-- First pass of album covers -->
+        <img src="ALBUM_URL_1" alt="Album 1">
+        <img src="ALBUM_URL_2" alt="Album 2">
+        <img src="ALBUM_URL_3" alt="Album 3">
+        <img src="ALBUM_URL_4" alt="Album 4">
+        <img src="ALBUM_URL_5" alt="Album 5">
+
+        <!-- Repeat the same covers again for smooth loop -->
+        <img src="ALBUM_URL_1" alt="Album 1">
+        <img src="ALBUM_URL_2" alt="Album 2">
+        <img src="ALBUM_URL_3" alt="Album 3">
+        <img src="ALBUM_URL_4" alt="Album 4">
+        <img src="ALBUM_URL_5" alt="Album 5">
+      </div>
     </div>
 
     <p class="footer-text">
