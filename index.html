@@ -14,7 +14,7 @@
       background-attachment: fixed;
 
       font-family: 'Press Start 2P', monospace;
-      color: white;
+      color: #333333;
       text-align: center;
       padding: 40px;
       letter-spacing: 1px;
@@ -26,18 +26,22 @@
     }
 
     a {
-      color: #5a5a5a;
+      color: #ff7ac4; /* cute pink link */
     }
 
-    /* CENTER PANEL */
+    /* CENTER PANEL — PASTEL GRADIENT, THICKER */
     .center-panel {
       position: fixed;
       top: 0;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 800px;
-      background: #000000;
+      width: 1000px;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 214, 240, 0.96),
+        rgba(198, 231, 255, 0.96)
+      );
       z-index: 1;
       pointer-events: none;
     }
@@ -55,57 +59,60 @@
     }
 
     .info-card {
-      background: transparent;
+      background: rgba(255,255,255,0.9);
       padding: 20px;
-      border-radius: 10px;
+      border-radius: 16px;
       width: 100%;
       box-sizing: border-box;
       font-size: 0.8rem;
       line-height: 1.6;
+      border: 2px dotted #ffb8e6;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.12);
     }
 
     .page-title {
       font-size: 1.6rem;
       margin-bottom: 20px;
       line-height: 1.4;
-      text-shadow: none; /* remove neon */
+      color: #ff4f9e;
+      text-shadow: 0 2px 0 #ffffff;
     }
 
     .footer-text {
-      opacity: 0.6;
+      opacity: 0.7;
       font-size: 0.7rem;
       margin-top: 10px;
-      text-shadow: none;
+      color: #555;
     }
 
-    /* ===== SIDEBAR ALBUM WIDGET (RIGHT) ===== */
+    /* ===== SIDEBAR ALBUM WIDGET (RIGHT) – CUTESY PASTEL ===== */
     .album-widget {
       position: fixed;
       top: 80px;
       right: 40px;
       width: 300px;
-      background: rgba(0,0,0,0.6);
-      border: 2px solid #5a5a5a; /* clean grey */
-      border-radius: 10px;
-      padding: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4); /* subtle drop shadow */
+      background: rgba(255,255,255,0.9);
+      border: 2px solid #ffb8e6;
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
       z-index: 5;
     }
 
     .album-widget-title {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       margin-bottom: 10px;
       text-align: center;
-      color: #ffffff;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.6); /* mild depth */
+      color: #ff4f9e;
+      text-shadow: 0 1px 0 #ffffff;
     }
 
     .album-strip-wrapper {
       width: 100%;
       overflow: hidden;
       padding: 6px 0;
-      border-top: 1px solid #444;
-      border-bottom: 1px solid #444;
+      border-top: 1px dashed #ffcce8;
+      border-bottom: 1px dashed #ffcce8;
       margin-bottom: 8px;
     }
 
@@ -118,10 +125,10 @@
       width: 80px;
       height: 80px;
       object-fit: cover;
-      border-radius: 6px;
-      border: 2px solid #555; /* clean album frame */
-      box-shadow: none;
-      background: #000;
+      border-radius: 10px;
+      border: 2px solid #ffcce8;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+      background: #fff;
     }
 
     .strip-top {
@@ -142,18 +149,18 @@
       100% { transform: translateX(0); }
     }
 
-    /* ===== YOUTUBE LIVE WIDGET (LEFT) ===== */
+    /* ===== YOUTUBE LIVE WIDGET (LEFT) – SOFT BLUE ===== */
     .weather-widget {
       position: fixed;
       top: 80px;
       left: 40px;
       width: 320px;
       height: 220px;
-      background: rgba(0, 0, 0, 0.6);
-      border: 2px solid #5a5a5a;
-      border-radius: 10px;
-      padding: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      background: rgba(255,255,255,0.9);
+      border: 2px solid #c6e7ff;
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
       z-index: 5;
       display: flex;
       flex-direction: column;
@@ -161,17 +168,17 @@
     }
 
     .weather-widget-title {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-align: center;
-      color: #ffffff;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+      color: #3b7dff;
+      text-shadow: 0 1px 0 #ffffff;
     }
 
     .weather-frame {
       flex: 1;
       border: none;
       width: 100%;
-      border-radius: 6px;
+      border-radius: 10px;
       overflow: hidden;
       background: #000;
     }
@@ -179,7 +186,7 @@
 </head>
 <body>
 
-  <!-- MID BACKGROUND PANEL -->
+  <!-- MID PASTEL PANEL -->
   <div class="center-panel"></div>
 
   <!-- CENTER CONTENT -->
@@ -199,7 +206,7 @@
 
   <!-- SIDEBAR ALBUM WIDGET (RIGHT) -->
   <div class="album-widget">
-    <div class="album-widget-title">Favourite Albums</div>
+    <div class="album-widget-title">♡ Favourite Albums ♡</div>
 
     <!-- TOP ROW -->
     <div class="album-strip-wrapper">
@@ -238,7 +245,7 @@
 
   <!-- YOUTUBE LIVE WIDGET (LEFT) -->
   <div class="weather-widget">
-    <div class="weather-widget-title">What Spegg Sees Outside</div>
+    <div class="weather-widget-title">☆ What Spegg Sees Outside ☆</div>
     <iframe
       class="weather-frame"
       src="https://www.youtube.com/embed/-MWn7E2O-_o?autoplay=1&mute=1&rel=0"
