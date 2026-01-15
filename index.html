@@ -46,7 +46,6 @@
       pointer-events: none;
     }
 
-    /* CENTER CONTENT */
     .content-container {
       max-width: 700px;
       margin: 0 auto;
@@ -85,7 +84,7 @@
       color: #555;
     }
 
-    /* ===== SIDEBAR ALBUM WIDGET (RIGHT) ===== */
+    /* ===== ALBUM WIDGET ===== */
     .album-widget {
       position: fixed;
       top: 80px;
@@ -131,31 +130,18 @@
       background: #fff;
     }
 
-    .strip-top {
-      animation: slide-left 22s linear infinite;
-    }
+    .strip-top { animation: slide-left 22s linear infinite; }
+    .strip-bottom { animation: slide-right 22s linear infinite; }
 
-    .strip-bottom {
-      animation: slide-right 22s linear infinite;
-    }
+    @keyframes slide-left { 0% {transform: translateX(0);} 100% {transform: translateX(-50%);} }
+    @keyframes slide-right { 0% {transform: translateX(-50%);} 100% {transform: translateX(0);} }
 
-    @keyframes slide-left {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    @keyframes slide-right {
-      0%   { transform: translateX(-50%); }
-      100% { transform: translateX(0); }
-    }
-
-    /* ===== YOUTUBE LIVE WIDGET (LEFT) ===== */
+    /* ===== LIVE FEED WIDGET ===== */
     .weather-widget {
       position: fixed;
       top: 80px;
       left: 40px;
       width: 320px;
-      height: 220px;
       background: rgba(255,255,255,0.9);
       border: 2px solid #c6e7ff;
       border-radius: 18px;
@@ -175,18 +161,25 @@
     }
 
     .weather-frame {
-      flex: 1;
-      border: none;
+      height: 180px;
       width: 100%;
       border-radius: 10px;
-      overflow: hidden;
+      border: none;
       background: #000;
     }
 
-    /* ===== CLOCK WIDGET (LEFT, BELOW WEATHER) ===== */
+    /* ===== WEATHER TEXT BELOW FEED ===== */
+    .weather-data {
+      font-size: 0.65rem;
+      text-align: center;
+      padding: 4px 0 6px;
+      color: #333;
+    }
+
+    /* ===== CLOCK WIDGET ===== */
     .clock-widget {
       position: fixed;
-      top: 320px;
+      top: 360px;
       left: 40px;
       width: 320px;
       background: rgba(255,255,255,0.9);
@@ -217,14 +210,17 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
 
+    .date-display {
+      font-size: 0.7rem;
+      color: #555;
+      margin-top: -2px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- MID PANEL -->
   <div class="center-panel"></div>
 
-  <!-- CENTER CONTENT -->
   <div class="content-container">
     <h1 class="page-title">I AM SPEGG BE SCARED</h1>
 
@@ -239,10 +235,9 @@
     <p class="footer-text">Copyright © Spegg 1998-2026</p>
   </div>
 
-  <!-- SIDEBAR ALBUM WIDGET -->
+  <!-- ALBUM WIDGET -->
   <div class="album-widget">
     <div class="album-widget-title">♡ Favourite Albums ♡</div>
-
     <div class="album-strip-wrapper">
       <div class="album-strip strip-top">
         <img src="when the lights go out cover.jpg">
@@ -276,38 +271,96 @@
     </div>
   </div>
 
-  <!-- YOUTUBE LIVE WIDGET -->
+  <!-- LIVE FEED WIDGET -->
   <div class="weather-widget">
     <div class="weather-widget-title">☆ What Spegg Sees Outside ☆</div>
-    <iframe
-      class="weather-frame"
-      src="https://www.youtube.com/embed/-MWn7E2O-_o?autoplay=1&mute=1&rel=0"
-      title="Live Cam"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen>
+    <iframe class="weather-frame"
+      src="https://www.youtube.com/embed/-MWn7E2O-_o?autoplay=1&mute=1&rel=0">
     </iframe>
+    <div class="weather-data" id="weather"></div>
   </div>
 
-  <!-- RALEIGH CLOCK WIDGET -->
+  <!-- CLOCK WIDGET -->
   <div class="clock-widget">
     <div class="clock-widget-title">♡ Raleigh Time ♡</div>
     <div class="clock-display" id="clock"></div>
+    <div class="date-display" id="date"></div>
   </div>
 
-  <!-- CLOCK SCRIPT -->
+  <!-- WEATHER + CLOCK SCRIPT -->
   <script>
+
+    /* CLOCK */
     function updateRaleighClock() {
-      const now = new Date().toLocaleString("en-US", {
+      const time = new Date().toLocaleString("en-US", {
         timeZone: "America/New_York",
         hour: "numeric",
         minute: "numeric",
         second: "numeric",
         hour12: true
       });
-      document.getElementById("clock").textContent = now;
+
+      const date = new Date().toLocaleDateString("en-US", {
+        timeZone: "America/New_York",
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+      });
+
+      document.getElementById("clock").textContent = time;
+      document.getElementById("date").textContent = date;
     }
-    updateRaleighClock();
+
     setInterval(updateRaleighClock, 1000);
+    updateRaleighClock();
+
+
+    /* WEATHER */
+    async function updateWeather() {
+      const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=35.78&longitude=-78.64&current_weather=true&temperature_unit=fahrenheit");
+      const data = await res.json();
+
+      const temp = Math.round(data.current_weather.temperature);
+      const code = data.current_weather.weathercode;
+
+      const conditions = {
+        0: "Sunny",
+        1: "Mainly Sunny",
+        2: "Partly Cloudy",
+        3: "Cloudy",
+        45: "Foggy",
+        48: "Icy Fog",
+        51: "Light Drizzle",
+        61: "Light Rain",
+        63: "Rain",
+        65: "Heavy Rain",
+        71: "Snow",
+        80: "Showers",
+        95: "Thunderstorms"
+      }[code] || "Weather";
+
+      const emoji = {
+        Sunny: "☀️",
+        "Mainly Sunny": "🌤️",
+        "Partly Cloudy": "⛅",
+        Cloudy: "☁️",
+        Foggy: "🌫️",
+        "Light Drizzle": "🌦️",
+        "Light Rain": "🌧️",
+        Rain: "🌧️",
+        "Heavy Rain": "⛈️",
+        Showers: "🌦️",
+        Thunderstorms: "⛈️",
+        Snow: "❄️"
+      }[conditions] || "🌡️";
+
+      document.getElementById("weather").textContent = `${emoji} ${temp}°F — ${conditions}`;
+    }
+
+    updateWeather();
+    setInterval(updateWeather, 900000); // 15 min refresh
+
   </script>
 
 </body>
