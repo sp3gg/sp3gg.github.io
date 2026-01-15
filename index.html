@@ -26,10 +26,10 @@
     }
 
     a {
-      color: #ff7ac4; /* cute pink link */
+      color: #ff7ac4;
     }
 
-    /* CENTER PANEL — PASTEL GRADIENT, THICKER */
+    /* CENTER PANEL — PASTEL GRADIENT */
     .center-panel {
       position: fixed;
       top: 0;
@@ -85,7 +85,7 @@
       color: #555;
     }
 
-    /* ===== SIDEBAR ALBUM WIDGET (RIGHT) – CUTESY PASTEL ===== */
+    /* ===== SIDEBAR ALBUM WIDGET (RIGHT) ===== */
     .album-widget {
       position: fixed;
       top: 80px;
@@ -149,7 +149,7 @@
       100% { transform: translateX(0); }
     }
 
-    /* ===== YOUTUBE LIVE WIDGET (LEFT) – SOFT BLUE ===== */
+    /* ===== YOUTUBE LIVE WIDGET (LEFT) ===== */
     .weather-widget {
       position: fixed;
       top: 80px;
@@ -182,11 +182,46 @@
       overflow: hidden;
       background: #000;
     }
+
+    /* ===== CLOCK WIDGET (LEFT, BELOW WEATHER) ===== */
+    .clock-widget {
+      position: fixed;
+      top: 320px;
+      left: 40px;
+      width: 320px;
+      background: rgba(255,255,255,0.9);
+      border: 2px solid #ffb8e6;
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .clock-widget-title {
+      font-size: 0.7rem;
+      color: #ff4f9e;
+      text-shadow: 0 1px 0 #ffffff;
+    }
+
+    .clock-display {
+      font-size: 0.9rem;
+      color: #333;
+      background: #fff;
+      padding: 8px 14px;
+      border-radius: 12px;
+      border: 1px dashed #ffcce8;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
   </style>
 </head>
 <body>
 
-  <!-- MID PASTEL PANEL -->
+  <!-- MID PANEL -->
   <div class="center-panel"></div>
 
   <!-- CENTER CONTENT -->
@@ -204,11 +239,10 @@
     <p class="footer-text">Copyright © Spegg 1998-2026</p>
   </div>
 
-  <!-- SIDEBAR ALBUM WIDGET (RIGHT) -->
+  <!-- SIDEBAR ALBUM WIDGET -->
   <div class="album-widget">
     <div class="album-widget-title">♡ Favourite Albums ♡</div>
 
-    <!-- TOP ROW -->
     <div class="album-strip-wrapper">
       <div class="album-strip strip-top">
         <img src="when the lights go out cover.jpg">
@@ -225,7 +259,6 @@
       </div>
     </div>
 
-    <!-- BOTTOM ROW -->
     <div class="album-strip-wrapper">
       <div class="album-strip strip-bottom">
         <img src="Junk cover.jpg">
@@ -243,7 +276,7 @@
     </div>
   </div>
 
-  <!-- YOUTUBE LIVE WIDGET (LEFT) -->
+  <!-- YOUTUBE LIVE WIDGET -->
   <div class="weather-widget">
     <div class="weather-widget-title">☆ What Spegg Sees Outside ☆</div>
     <iframe
@@ -255,5 +288,29 @@
     </iframe>
   </div>
 
+  <!-- RALEIGH CLOCK WIDGET -->
+  <div class="clock-widget">
+    <div class="clock-widget-title">♡ Raleigh Time ♡</div>
+    <div class="clock-display" id="clock"></div>
+  </div>
+
+  <!-- CLOCK SCRIPT -->
+  <script>
+    function updateRaleighClock() {
+      const now = new Date().toLocaleString("en-US", {
+        timeZone: "America/New_York",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true
+      });
+      document.getElementById("clock").textContent = now;
+    }
+    updateRaleighClock();
+    setInterval(updateRaleighClock, 1000);
+  </script>
+
 </body>
 </html>
+
+
