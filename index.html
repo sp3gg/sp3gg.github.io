@@ -31,7 +31,7 @@
       color: #00ffd5;
     }
 
-    /* vertical navy strip behind content */
+    /* vertical panel behind content (now solid black) */
     .center-panel {
       position: fixed;
       top: 0;
@@ -39,7 +39,7 @@
       left: 50%;
       transform: translateX(-50%);
       width: 800px; /* tweak this to be wider/narrower */
-      background: rgba(10, 20, 50, 0.85); /* dark navy with slight transparency */
+      background: #000000; /* solid black */
       z-index: 1; /* under content, above background */
       pointer-events: none;
     }
@@ -54,12 +54,12 @@
       gap: 20px;
 
       position: relative;
-      z-index: 2; /* above navy panel */
+      z-index: 2; /* above black panel */
     }
 
     /* readable block for text */
     .info-card {
-      background: transparent; /* navy strip handles readability now */
+      background: transparent; /* panel handles readability now */
       padding: 20px;
       border-radius: 10px;
       width: 100%;
@@ -85,7 +85,7 @@
 </head>
 <body>
 
-  <!-- Mid background navy panel -->
+  <!-- Mid background black panel -->
   <div class="center-panel"></div>
 
   <div class="content-container">
@@ -108,4 +108,3 @@
 
 </body>
 </html>
-
