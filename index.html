@@ -95,5 +95,82 @@
       object-fit: cover;
       border-radius: 6px;
       box-shadow: 0 0 6px #0040ff;
-      border: 2px solid #
+      border: 2px solid #0040ff;
+      background: #000;
+    }
 
+    .strip-top {
+      animation: slide-left 22s linear infinite;
+    }
+
+    .strip-bottom {
+      animation: slide-right 22s linear infinite;
+    }
+
+    @keyframes slide-left {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @keyframes slide-right {
+      0%   { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="center-panel"></div>
+
+  <div class="content-container">
+
+    <h1 class="page-title">I AM SPEGG BE SCARED</h1>
+
+    <div class="info-card">
+      Alright y'all welcome to the site. I'm just gonna put some mildly interesting things on here for you to look at. BIG CHEESE!!!! :))))
+    </div>
+
+    <div class="info-card">
+      Just punching in bs here to see what's up and where everything is alligned on the page.
+    </div>
+
+    <!-- TOP ROW -->
+    <div class="album-strip-wrapper">
+      <div class="album-strip strip-top">
+        <img src="when the lights go out cover.jpg" alt="">
+        <img src="kotms cover.jpg" alt="">
+        <img src="World cover.jpg" alt="">
+        <img src="Tremendous sea of love cover.jpg" alt="">
+        <img src="Nurture cover.jpg" alt="">
+
+        <img src="when the lights go out cover.jpg" alt="">
+        <img src="kotms cover.jpg" alt="">
+        <img src="World cover.jpg" alt="">
+        <img src="Tremendous sea of love cover.jpg" alt="">
+        <img src="Nurture cover.jpg" alt="">
+      </div>
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div class="album-strip-wrapper">
+      <div class="album-strip strip-bottom">
+        <img src="Junk cover.jpg" alt="">
+        <img src="In Rainbows cover.jpg" alt="">
+        <img src="Gossamer cover.jpg" alt="">
+        <img src="Getting Killed cover.jpg" alt="">
+        <img src="Deathconsciousness cover.jpg" alt="">
+
+        <img src="Junk cover.jpg" alt="">
+        <img src="In Rainbows cover.jpg" alt="">
+        <img src="Gossamer cover.jpg" alt="">
+        <img src="Getting Killed cover.jpg" alt="">
+        <img src="Deathconsciousness cover.jpg" alt="">
+      </div>
+    </div>
+
+    <p class="footer-text">Copyright © Spegg 1998-2026</p>
+
+  </div>
+
+</body>
+</html>
