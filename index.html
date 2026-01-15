@@ -82,7 +82,7 @@
       top: 80px;
       right: 40px;
       width: 300px;
-      background: rgba(0,0,0,0.6);   /* transparent black fill */
+      background: rgba(0,0,0,0.6);
       border: 3px solid #0040ff;
       border-radius: 10px;
       padding: 12px;
@@ -140,14 +140,14 @@
       100% { transform: translateX(0); }
     }
 
-    /* ===== WEATHER WIDGET (LEFT) ===== */
+    /* ===== YOUTUBE LIVE WIDGET (LEFT) ===== */
     .weather-widget {
       position: fixed;
       top: 80px;
       left: 40px;
       width: 320px;
       height: 220px;
-      background: rgba(0, 0, 0, 0.6); /* transparent black fill */
+      background: rgba(0, 0, 0, 0.6);
       border: 3px solid #0040ff;
       border-radius: 10px;
       padding: 12px;
@@ -234,12 +234,15 @@
     </div>
   </div>
 
-  <!-- WEATHER WIDGET (LEFT) -->
+  <!-- YOUTUBE LIVE WIDGET (LEFT) -->
   <div class="weather-widget">
-    <div class="weather-widget-title">Live Weather – Museum Globe</div>
+    <div class="weather-widget-title">Live Weather</div>
     <iframe
       class="weather-frame"
-      src="https://www.wral.com/video/nc-museum-of-naturals-sciences-globe-webcam/22062815/">
+      src="https://www.youtube.com/embed/-MWn7E2O-_o?autoplay=1&mute=1&rel=0"
+      title="Live Cam"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
     </iframe>
   </div>
 
