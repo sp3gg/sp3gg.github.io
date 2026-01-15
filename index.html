@@ -21,24 +21,63 @@
       color: #00ffd5;
     }
 
-    /* ✨ makes text readable on busy bg ✨ */
-    .content-wrapper {
-      background: rgba(0, 0, 0, 0.65);
-      padding: 30px;
-      border-radius: 10px;
-      width: fit-content;
-      margin: auto;
+    /* center content into a neat vertical column */
+    .content-container {
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
     }
+
+    /* readable block for text */
+    .info-card {
+      background: rgba(0, 0, 0, 0.65);
+      padding: 20px;
+      border-radius: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    .footer-text {
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+
   </style>
 </head>
 <body>
 
-  <div class="content-wrapper">
-    <h1>Welcome to my website</h1>
-    <p>This is my first coded website.</p>
-    <a href="https://github.com">Visit GitHub</a>
+  <div class="content-container">
+
+    <h1 class="page-title">I AM SPEGG BE SCARED</h1>
+
+    <div class="info-card">
+      <!-- YOUR MAIN TEXT HERE -->
+      Alright y'all welcome to the site. I'm just gonna put some mildly interesting things on here for you to look at. BIG CHEESE!!!! :))))
+    </div>
+
+    <div class="info-card">
+      <!-- OPTIONAL EXTRA SECTION -->
+      Just punching in bs here to see what's up and where everything is alligned on the page.
+    </div>
+
+    <p class="footer-text">
+      <!-- OPTIONAL FOOTER -->
+      Your footer or small notes go here.
+    </p>
+
   </div>
 
 </body>
 </html>
+
 
