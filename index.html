@@ -31,6 +31,19 @@
       color: #00ffd5;
     }
 
+    /* vertical navy strip behind content */
+    .center-panel {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px; /* tweak this to be wider/narrower */
+      background: rgba(10, 20, 50, 0.85); /* dark navy with slight transparency */
+      z-index: 1; /* under content, above background */
+      pointer-events: none;
+    }
+
     /* center content into a neat vertical column */
     .content-container {
       max-width: 700px;
@@ -41,12 +54,12 @@
       gap: 20px;
 
       position: relative;
-      z-index: 3; /* above the CRT overlay */
+      z-index: 2; /* above navy panel */
     }
 
     /* readable block for text */
     .info-card {
-      background: rgba(0, 0, 0, 0.65);
+      background: transparent; /* navy strip handles readability now */
       padding: 20px;
       border-radius: 10px;
       width: 100%;
@@ -68,40 +81,12 @@
       margin-top: 10px;
     }
 
-    /* === CRT SCANLINE OVERLAY === */
-    .crt-overlay {
-      pointer-events: none;         /* don't block clicks */
-      position: fixed;
-      inset: 0;
-      z-index: 2;                   /* above background, under content */
-
-      /* repeating horizontal lines = scanlines */
-      background-image: repeating-linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.06) 0px,
-        rgba(255, 255, 255, 0.06) 1px,
-        transparent 2px,
-        transparent 3px
-      );
-
-      mix-blend-mode: soft-light;
-      opacity: 0.35;
-
-      /* tiny flicker */
-      animation: crt-flicker 3s infinite alternate;
-    }
-
-    @keyframes crt-flicker {
-      0%   { opacity: 0.30; }
-      50%  { opacity: 0.40; }
-      100% { opacity: 0.32; }
-    }
   </style>
 </head>
 <body>
 
-  <!-- CRT scanline overlay -->
-  <div class="crt-overlay"></div>
+  <!-- Mid background navy panel -->
+  <div class="center-panel"></div>
 
   <div class="content-container">
 
@@ -123,5 +108,4 @@
 
 </body>
 </html>
-
 
