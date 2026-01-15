@@ -8,13 +8,11 @@
 
   <style>
     body {
-      /* background image settings */
-      background-image: url('https://raw.githubusercontent.com/sp3gg/sp3gg.github.io/refs/heads/main/628b47d525-f948-18b8-52d9-6985c01b73.jpg');
+      background-image: url('628b47d525-f948-18b8-52d9-6985c01b73.jpg');
       background-size: cover;
       background-repeat: repeat;
       background-attachment: fixed;
 
-      /* other body styles */
       font-family: 'Press Start 2P', monospace;
       color: white;
       text-align: center;
@@ -28,23 +26,21 @@
     }
 
     a {
-      color: #00ffd5;
+      color: #0040ff;
     }
 
-    /* vertical panel behind content (solid black) */
     .center-panel {
       position: fixed;
       top: 0;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 800px; /* tweak this to be wider/narrower */
-      background: #000000; /* solid black */
-      z-index: 1; /* under content, above background */
+      width: 800px;
+      background: #000000;
+      z-index: 1;
       pointer-events: none;
     }
 
-    /* center content into a neat vertical column */
     .content-container {
       max-width: 700px;
       margin: 0 auto;
@@ -52,19 +48,16 @@
       flex-direction: column;
       align-items: center;
       gap: 20px;
-
       position: relative;
-      z-index: 2; /* above black panel */
+      z-index: 2;
     }
 
-    /* readable block for text */
     .info-card {
-      background: transparent; /* panel handles readability now */
+      background: transparent;
       padding: 20px;
       border-radius: 10px;
       width: 100%;
       box-sizing: border-box;
-
       font-size: 0.8rem;
       line-height: 1.6;
     }
@@ -81,114 +74,26 @@
       margin-top: 10px;
     }
 
-    /* ===== DOUBLE SLIDING ALBUM STRIPS ===== */
+    /* ===== UPDATED DOUBLE SLIDERS (shorter, 4 at a time, dark blue borders) ===== */
     .album-strip-wrapper {
       width: 100%;
       overflow: hidden;
-      margin-top: 10px;
-      padding: 10px 0;
-      border-top: 2px solid #00ffd5;
-      border-bottom: 2px solid #00ffd5;
+      margin-top: 6px;
+      padding: 6px 0; /* smaller height */
+      border-top: 2px solid #0040ff;
+      border-bottom: 2px solid #0040ff;
     }
 
     .album-strip {
       display: flex;
-      gap: 16px;
+      gap: 10px; /* tighter spacing */
     }
 
     .album-strip img {
-      width: 80px;
-      height: 80px;
+      width: 60px;  /* smaller thumbnails */
+      height: 60px;
       object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #00ffd5;
-      border: 2px solid #00ffd5;
-      background: #000;
-    }
-
-    /* Top strip: normal left → right scroll */
-    .strip-top {
-      animation: slide-left 25s linear infinite;
-    }
-
-    /* Bottom strip: reverse direction */
-    .strip-bottom {
-      animation: slide-right 25s linear infinite;
-    }
-
-    @keyframes slide-left {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    @keyframes slide-right {
-      0%   { transform: translateX(-50%); }
-      100% { transform: translateX(0); }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Mid background black panel -->
-  <div class="center-panel"></div>
-
-  <div class="content-container">
-
-    <h1 class="page-title">I AM SPEGG BE SCARED</h1>
-
-    <div class="info-card">
-      Alright y'all welcome to the site. I'm just gonna put some mildly interesting things on here for you to look at. BIG CHEESE!!!! :))))
-    </div>
-
-    <div class="info-card">
-      Just punching in bs here to see what's up and where everything is alligned on the page.
-    </div>
-
-    <!-- TOP SLIDING ALBUM ART STRIP -->
-    <div class="album-strip-wrapper">
-      <div class="album-strip strip-top">
-        <!-- First pass of album covers -->
-        <img src="when the lights go out cover.jpg" alt="When the Lights Go Out">
-        <img src="kotms cover.jpg" alt="KOTMS">
-        <img src="World cover.jpg" alt="World">
-        <img src="Tremendous sea of love cover.jpg" alt="Tremendous Sea of Love">
-        <img src="Nurture cover.jpg" alt="Nurture">
-
-        <!-- Repeat for smooth loop -->
-        <img src="when the lights go out cover.jpg" alt="When the Lights Go Out">
-        <img src="kotms cover.jpg" alt="KOTMS">
-        <img src="World cover.jpg" alt="World">
-        <img src="Tremendous sea of love cover.jpg" alt="Tremendous Sea of Love">
-        <img src="Nurture cover.jpg" alt="Nurture">
-      </div>
-    </div>
-
-    <!-- BOTTOM SLIDING ALBUM ART STRIP -->
-    <div class="album-strip-wrapper">
-      <div class="album-strip strip-bottom">
-        <!-- First pass of album covers -->
-        <img src="Junk cover.jpg" alt="Junk">
-        <img src="In Rainbows cover.jpg" alt="In Rainbows">
-        <img src="Gossamer cover.jpg" alt="Gossamer">
-        <img src="Getting Killed cover.jpg" alt="Getting Killed">
-        <img src="Deathconsciousness cover.jpg" alt="Deathconsciousness">
-
-        <!-- Repeat for smooth loop -->
-        <img src="Junk cover.jpg" alt="Junk">
-        <img src="In Rainbows cover.jpg" alt="In Rainbows">
-        <img src="Gossamer cover.jpg" alt="Gossamer">
-        <img src="Getting Killed cover.jpg" alt="Getting Killed">
-        <img src="Deathconsciousness cover.jpg" alt="Deathconsciousness">
-      </div>
-    </div>
-
-    <p class="footer-text">
-      Copyright ©Spegg 1998-2026
-    </p>
-
-  </div>
-
-</body>
-</html>
-
+      border-radius: 6px;
+      box-shadow: 0 0 6px #0040ff;
+      border: 2px solid #
 
