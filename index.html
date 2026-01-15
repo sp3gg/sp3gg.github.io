@@ -67,7 +67,36 @@
       100% { transform: translateY(-250px); }
     }
 
-    /* ===== GLASS CENTER PANEL ===== */
+    /* ===== SUN / MOON ORBS ===== */
+    .sky-orb {
+      position: fixed;
+      top: 60px;              /* height in the sky */
+      left: -80px;            /* start just off the left edge */
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;             /* above stars, below center panel */
+      display: none;          /* JS will turn the correct one on */
+      animation: move-orb 120s linear infinite;
+    }
+
+    @keyframes move-orb {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(120vw); } /* drift across the whole screen */
+    }
+
+    .sun-orb {
+      background: radial-gradient(circle at 30% 30%, #fffbe0, #ffcc33);
+      box-shadow: 0 0 20px rgba(255, 230, 120, 0.9);
+    }
+
+    .moon-orb {
+      background: radial-gradient(circle at 30% 30%, #ffffff, #c0c6ff);
+      box-shadow: 0 0 16px rgba(180, 200, 255, 0.9);
+    }
+
+    /* ===== GLASS CENTER PANEL (LESS TRANSPARENT) ===== */
     .center-panel {
       position: fixed;
       top: 0;
@@ -77,11 +106,11 @@
       width: 1000px;
       background: linear-gradient(
         180deg,
-        rgba(255, 214, 240, 0.35),
-        rgba(198, 231, 255, 0.35)
+        rgba(255, 214, 240, 0.75),  /* 75% opaque */
+        rgba(198, 231, 255, 0.75)
       );
       backdrop-filter: blur(6px);
-      z-index: 1;
+      z-index: 2;
       pointer-events: none;
     }
 
@@ -94,7 +123,7 @@
       align-items: center;
       gap: 20px;
       position: relative;
-      z-index: 2;
+      z-index: 3;
     }
 
     .info-card {
@@ -259,9 +288,15 @@
 </head>
 <body>
 
+  <!-- STARFIELD + ORBS -->
   <div class="star-field"></div>
+  <div id="sun-orb" class="sky-orb sun-orb"></div>
+  <div id="moon-orb" class="sky-orb moon-orb"></div>
+
+  <!-- GLASS PANEL -->
   <div class="center-panel"></div>
 
+  <!-- CENTER CONTENT -->
   <div class="content-container">
     <h1 class="page-title">I AM SPEGG BE SCARED</h1>
 
@@ -317,7 +352,9 @@
     <div class="weather-widget-title">☆ What Spegg Sees Outside ☆</div>
     <iframe class="weather-frame"
       src="https://www.youtube.com/embed/-MWn7E2O-_o?autoplay=1&mute=1&rel=0"
-      allowfullscreen></iframe>
+      title="Live Cam"
+      allowfullscreen>
+    </iframe>
     <div class="weather-data" id="weather"></div>
   </div>
 
@@ -328,7 +365,9 @@
     <div class="date-display" id="date"></div>
   </div>
 
+  <!-- WEATHER + CLOCK + SUN/MOON SCRIPT -->
   <script>
+    /* CLOCK */
     function updateRaleighClock() {
       const time = new Date().toLocaleString("en-US", {
         timeZone: "America/New_York",
@@ -353,6 +392,7 @@
     setInterval(updateRaleighClock, 1000);
     updateRaleighClock();
 
+    /* WEATHER */
     async function updateWeather() {
       try {
         const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=35.78&longitude=-78.64&current_weather=true&temperature_unit=fahrenheit");
@@ -404,7 +444,37 @@
     }
 
     updateWeather();
-    setInterval(updateWeather, 900000);
+    setInterval(updateWeather, 900000); // 15 minutes
+
+    /* SUN / MOON TOGGLE BASED ON RALEIGH TIME */
+    function isDayInRaleigh() {
+      const hourString = new Date().toLocaleString("en-US", {
+        timeZone: "America/New_York",
+        hour: "numeric",
+        hour12: false
+      });
+      const hour = parseInt(hourString, 10);
+      // Day from 7:00 to 18:59, night otherwise
+      return hour >= 7 && hour < 19;
+    }
+
+    function updateSkyOrb() {
+      const sun = document.getElementById("sun-orb");
+      const moon = document.getElementById("moon-orb");
+      if (!sun || !moon) return;
+
+      if (isDayInRaleigh()) {
+        sun.style.display = "block";
+        moon.style.display = "none";
+      } else {
+        sun.style.display = "none";
+        moon.style.display = "block";
+      }
+    }
+
+    updateSkyOrb();
+    // Recheck every 5 minutes in case it crosses day/night boundary
+    setInterval(updateSkyOrb, 300000);
   </script>
 
 </body>
