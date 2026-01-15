@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Wren's Website</title>
+  <title>Spegg's Page</title>
 
   <!-- IMPORT PRESS START 2P FONT -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -19,10 +19,12 @@
       color: white;
       text-align: center;
       padding: 40px;
-
-      /* readability improvements for pixel font */
       letter-spacing: 1px;
       line-height: 1.5;
+
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     a {
@@ -37,6 +39,9 @@
       flex-direction: column;
       align-items: center;
       gap: 20px;
+
+      position: relative;
+      z-index: 3; /* above the CRT overlay */
     }
 
     /* readable block for text */
@@ -47,13 +52,12 @@
       width: 100%;
       box-sizing: border-box;
 
-      /* Adjust for pixel font */
       font-size: 0.8rem;
       line-height: 1.6;
     }
 
     .page-title {
-      font-size: 1.6rem; /* pixel fonts render smaller, so we bump it */
+      font-size: 1.6rem;
       margin-bottom: 20px;
       line-height: 1.4;
     }
@@ -64,9 +68,40 @@
       margin-top: 10px;
     }
 
+    /* === CRT SCANLINE OVERLAY === */
+    .crt-overlay {
+      pointer-events: none;         /* don't block clicks */
+      position: fixed;
+      inset: 0;
+      z-index: 2;                   /* above background, under content */
+
+      /* repeating horizontal lines = scanlines */
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.06) 0px,
+        rgba(255, 255, 255, 0.06) 1px,
+        transparent 2px,
+        transparent 3px
+      );
+
+      mix-blend-mode: soft-light;
+      opacity: 0.35;
+
+      /* tiny flicker */
+      animation: crt-flicker 3s infinite alternate;
+    }
+
+    @keyframes crt-flicker {
+      0%   { opacity: 0.30; }
+      50%  { opacity: 0.40; }
+      100% { opacity: 0.32; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- CRT scanline overlay -->
+  <div class="crt-overlay"></div>
 
   <div class="content-container">
 
@@ -88,6 +123,5 @@
 
 </body>
 </html>
-
 
 
