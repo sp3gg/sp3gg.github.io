@@ -29,6 +29,7 @@
       color: #0040ff;
     }
 
+    /* CENTER PANEL */
     .center-panel {
       position: fixed;
       top: 0;
@@ -41,6 +42,7 @@
       pointer-events: none;
     }
 
+    /* CENTER CONTENT */
     .content-container {
       max-width: 700px;
       margin: 0 auto;
@@ -74,29 +76,49 @@
       margin-top: 10px;
     }
 
-    /* ===== DOUBLE SLIDERS: BIGGER COVERS, ~4 VISIBLE ===== */
+    /* ===== SIDEBAR ALBUM WIDGET ===== */
+    .album-widget {
+      position: fixed;
+      top: 80px;
+      right: 40px;
+      width: 300px;
+      background: rgba(0,0,0,0.6);   /* transparent black fill */
+      border: 3px solid #0040ff;
+      border-radius: 10px;
+      padding: 12px;
+      box-shadow: 0 0 12px #0040ff;
+      z-index: 5;
+    }
+
+    .album-widget-title {
+      font-size: 0.75rem;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #ffffff;
+      text-shadow: 0 0 6px #0040ff;
+    }
+
     .album-strip-wrapper {
       width: 100%;
-      max-width: 520px;        /* limits how many covers are visible */
       overflow: hidden;
-      margin: 10px auto;
-      padding: 10px 0;
+      padding: 6px 0;
       border-top: 2px solid #0040ff;
       border-bottom: 2px solid #0040ff;
+      margin-bottom: 8px;
     }
 
     .album-strip {
       display: flex;
-      gap: 18px;               /* spacing between covers */
+      gap: 12px;
     }
 
     .album-strip img {
-      width: 120px;            /* BIGGER covers */
-      height: 120px;
+      width: 80px;
+      height: 80px;
       object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 0 12px #0040ff;
+      border-radius: 8px;
       border: 2px solid #0040ff;
+      box-shadow: 0 0 6px #0040ff;
       background: #000;
     }
 
@@ -121,10 +143,11 @@
 </head>
 <body>
 
+  <!-- MID BACKGROUND PANEL -->
   <div class="center-panel"></div>
 
+  <!-- CENTER CONTENT -->
   <div class="content-container">
-
     <h1 class="page-title">I AM SPEGG BE SCARED</h1>
 
     <div class="info-card">
@@ -135,47 +158,50 @@
       Just punching in bs here to see what's up and where everything is alligned on the page.
     </div>
 
-    <!-- TOP ROW (left-moving) -->
+    <p class="footer-text">Copyright ©Spegg 1998-2026</p>
+  </div>
+
+  <!-- SIDEBAR WIDGET -->
+  <div class="album-widget">
+
+    <!-- TITLE -->
+    <div class="album-widget-title">Favourite Albums</div>
+
+    <!-- TOP ROW -->
     <div class="album-strip-wrapper">
       <div class="album-strip strip-top">
-        <img src="when the lights go out cover.jpg" alt="">
-        <img src="kotms cover.jpg" alt="">
-        <img src="World cover.jpg" alt="">
-        <img src="Tremendous sea of love cover.jpg" alt="">
-        <img src="Nurture cover.jpg" alt="">
+        <img src="when the lights go out cover.jpg">
+        <img src="kotms cover.jpg">
+        <img src="World cover.jpg">
+        <img src="Tremendous sea of love cover.jpg">
+        <img src="Nurture cover.jpg">
 
-        <!-- repeat for smooth loop -->
-        <img src="when the lights go out cover.jpg" alt="">
-        <img src="kotms cover.jpg" alt="">
-        <img src="World cover.jpg" alt="">
-        <img src="Tremendous sea of love cover.jpg" alt="">
-        <img src="Nurture cover.jpg" alt="">
+        <img src="when the lights go out cover.jpg">
+        <img src="kotms cover.jpg">
+        <img src="World cover.jpg">
+        <img src="Tremendous sea of love cover.jpg">
+        <img src="Nurture cover.jpg">
       </div>
     </div>
 
-    <!-- BOTTOM ROW (right-moving) -->
+    <!-- BOTTOM ROW -->
     <div class="album-strip-wrapper">
       <div class="album-strip strip-bottom">
-        <img src="Junk cover.jpg" alt="">
-        <img src="In Rainbows cover.jpg" alt="">
-        <img src="Gossamer cover.jpg" alt="">
-        <img src="Getting Killed cover.jpg" alt="">
-        <img src="Deathconsciousness cover.jpg" alt="">
+        <img src="Junk cover.jpg">
+        <img src="In Rainbows cover.jpg">
+        <img src="Gossamer cover.jpg">
+        <img src="Getting Killed cover.jpg">
+        <img src="Deathconsciousness cover.jpg">
 
-        <!-- repeat for smooth loop -->
-        <img src="Junk cover.jpg" alt="">
-        <img src="In Rainbows cover.jpg" alt="">
-        <img src="Gossamer cover.jpg" alt="">
-        <img src="Getting Killed cover.jpg" alt="">
-        <img src="Deathconsciousness cover.jpg" alt="">
+        <img src="Junk cover.jpg">
+        <img src="In Rainbows cover.jpg">
+        <img src="Gossamer cover.jpg">
+        <img src="Getting Killed cover.jpg">
+        <img src="Deathconsciousness cover.jpg">
       </div>
     </div>
-
-    <p class="footer-text">Copyright ©Spegg 1998-2026</p>
 
   </div>
 
 </body>
 </html>
-
-
