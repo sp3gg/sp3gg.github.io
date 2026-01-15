@@ -70,20 +70,20 @@
     /* ===== SUN / MOON ORBS ===== */
     .sky-orb {
       position: fixed;
-      top: 60px;              /* height in the sky */
-      left: -80px;            /* start just off the left edge */
+      top: 60px;
+      left: -80px;
       width: 60px;
       height: 60px;
       border-radius: 50%;
       pointer-events: none;
-      z-index: 1;             /* above stars, below center panel */
-      display: none;          /* JS will turn the correct one on */
+      z-index: 1;
+      display: none;
       animation: move-orb 120s linear infinite;
     }
 
     @keyframes move-orb {
       0%   { transform: translateX(0); }
-      100% { transform: translateX(120vw); } /* drift across the whole screen */
+      100% { transform: translateX(120vw); }
     }
 
     .sun-orb {
@@ -94,9 +94,73 @@
     .moon-orb {
       background: radial-gradient(circle at 30% 30%, #ffffff, #c0c6ff);
       box-shadow: 0 0 16px rgba(180, 200, 255, 0.9);
+      overflow: hidden;
+      position: fixed; /* still inherits top/left etc from .sky-orb */
     }
 
-    /* ===== GLASS CENTER PANEL (LESS TRANSPARENT) ===== */
+    /* Dark overlay used to "cut" the moon into phases */
+    .moon-orb::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: #000;
+      transform: translateX(0);
+      transition: transform 1s ease, opacity 1s ease;
+      opacity: 1;
+    }
+
+    /* Moon phase classes (0–7 mapping) */
+
+    /* New moon – mostly dark */
+    .moon-phase-new::before {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Waxing crescent – lit on right */
+    .moon-phase-waxing-crescent::before {
+      opacity: 1;
+      transform: translateX(-40%);
+    }
+
+    /* First quarter – right half lit */
+    .moon-phase-first-quarter::before {
+      opacity: 1;
+      transform: translateX(-15%);
+    }
+
+    /* Waxing gibbous – mostly lit on right, small dark slice */
+    .moon-phase-waxing-gibbous::before {
+      opacity: 1;
+      transform: translateX(10%);
+    }
+
+    /* Full moon – no shadow */
+    .moon-phase-full::before {
+      opacity: 0;
+      transform: translateX(0);
+    }
+
+    /* Waning gibbous – mostly lit on left, small dark slice on right */
+    .moon-phase-waning-gibbous::before {
+      opacity: 1;
+      transform: translateX(-10%);
+    }
+
+    /* Last quarter – left half lit */
+    .moon-phase-last-quarter::before {
+      opacity: 1;
+      transform: translateX(15%);
+    }
+
+    /* Waning crescent – lit on left */
+    .moon-phase-waning-crescent::before {
+      opacity: 1;
+      transform: translateX(40%);
+    }
+
+    /* ===== GLASS CENTER PANEL WITH SOFT GLOW (OPTION A) ===== */
     .center-panel {
       position: fixed;
       top: 0;
@@ -106,12 +170,17 @@
       width: 1000px;
       background: linear-gradient(
         180deg,
-        rgba(255, 214, 240, 0.75),  /* 75% opaque */
+        rgba(255, 214, 240, 0.75),
         rgba(198, 231, 255, 0.75)
       );
       backdrop-filter: blur(6px);
       z-index: 2;
       pointer-events: none;
+
+      box-shadow:
+        0 0 30px rgba(200, 200, 255, 0.25),
+        0 0 60px rgba(200, 200, 255, 0.18),
+        0 0 100px rgba(200, 200, 255, 0.12);
     }
 
     /* ===== CONTENT ===== */
@@ -288,24 +357,24 @@
 </head>
 <body>
 
-  <!-- STARFIELD + ORBS -->
+  <!-- STARFIELD & ORBS -->
   <div class="star-field"></div>
   <div id="sun-orb" class="sky-orb sun-orb"></div>
   <div id="moon-orb" class="sky-orb moon-orb"></div>
 
-  <!-- GLASS PANEL -->
+  <!-- CENTER GLASS PANEL -->
   <div class="center-panel"></div>
 
   <!-- CENTER CONTENT -->
   <div class="content-container">
-    <h1 class="page-title">Welcome to Spegg's Page</h1>
+    <h1 class="page-title">I AM SPEGG BE SCARED</h1>
 
     <div class="info-card">
-      Cringe culture is dead and I shrimply enjoy having a cutsie little site that I can upload blogs to. Other Supporting links and things I think are cool you can find on this main page.
+      Alright y'all welcome to the site. I'm just gonna put some mildly interesting things on here for you to look at. BIG CHEESE!!!! :))))
     </div>
 
     <div class="info-card">
-      Links will go here once I've set that up. Ty!
+      Just punching in bs here to see what's up and where everything is alligned on the page.
     </div>
 
     <p class="footer-text">Copyright © Spegg 1998-2026</p>
@@ -365,7 +434,7 @@
     <div class="date-display" id="date"></div>
   </div>
 
-  <!-- WEATHER + CLOCK + SUN/MOON SCRIPT -->
+  <!-- WEATHER + CLOCK + ORB + MOON PHASE SCRIPT -->
   <script>
     /* CLOCK */
     function updateRaleighClock() {
@@ -444,9 +513,9 @@
     }
 
     updateWeather();
-    setInterval(updateWeather, 900000); // 15 minutes
+    setInterval(updateWeather, 900000); // 15 min
 
-    /* SUN / MOON TOGGLE BASED ON RALEIGH TIME */
+    /* DAY/NIGHT TOGGLE FOR SUN / MOON */
     function isDayInRaleigh() {
       const hourString = new Date().toLocaleString("en-US", {
         timeZone: "America/New_York",
@@ -454,13 +523,45 @@
         hour12: false
       });
       const hour = parseInt(hourString, 10);
-      // Day from 7:00 to 18:59, night otherwise
       return hour >= 7 && hour < 19;
+    }
+
+    /* Simple moon phase index 0–7 */
+    function getMoonPhaseIndex(date) {
+      // Approximate algorithm using a known reference new moon
+      const lp = 2551443; // lunar period in seconds
+      const newMoon = Date.UTC(1970, 0, 7, 20, 35, 0); // reference new moon
+      const phase = ((date.getTime() - newMoon) / 1000) % lp;
+      const index = Math.floor((phase / lp) * 8) & 7; // 0–7
+      return index;
+    }
+
+    function updateMoonPhase() {
+      const moon = document.getElementById("moon-orb");
+      if (!moon) return;
+
+      const phases = [
+        "moon-phase-new",
+        "moon-phase-waxing-crescent",
+        "moon-phase-first-quarter",
+        "moon-phase-waxing-gibbous",
+        "moon-phase-full",
+        "moon-phase-waning-gibbous",
+        "moon-phase-last-quarter",
+        "moon-phase-waning-crescent"
+      ];
+
+      phases.forEach(cls => moon.classList.remove(cls));
+
+      const idx = getMoonPhaseIndex(new Date());
+      const cls = phases[idx] || "moon-phase-full";
+      moon.classList.add(cls);
     }
 
     function updateSkyOrb() {
       const sun = document.getElementById("sun-orb");
       const moon = document.getElementById("moon-orb");
+
       if (!sun || !moon) return;
 
       if (isDayInRaleigh()) {
@@ -470,13 +571,16 @@
         sun.style.display = "none";
         moon.style.display = "block";
       }
+
+      // Always keep moon phase updated even if currently hidden
+      updateMoonPhase();
     }
 
     updateSkyOrb();
-    // Recheck every 5 minutes in case it crosses day/night boundary
-    setInterval(updateSkyOrb, 300000);
+    setInterval(updateSkyOrb, 300000); // check every 5 minutes
   </script>
 
 </body>
 </html>
+
 
