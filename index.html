@@ -76,7 +76,7 @@
       margin-top: 10px;
     }
 
-    /* ===== SIDEBAR ALBUM WIDGET ===== */
+    /* ===== SIDEBAR ALBUM WIDGET (RIGHT) ===== */
     .album-widget {
       position: fixed;
       top: 80px;
@@ -139,6 +139,40 @@
       0%   { transform: translateX(-50%); }
       100% { transform: translateX(0); }
     }
+
+    /* ===== WEATHER WIDGET (LEFT) ===== */
+    .weather-widget {
+      position: fixed;
+      top: 80px;
+      left: 40px;
+      width: 320px;
+      height: 220px;
+      background: rgba(0, 0, 0, 0.6); /* transparent black fill */
+      border: 3px solid #0040ff;
+      border-radius: 10px;
+      padding: 12px;
+      box-shadow: 0 0 12px #0040ff;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .weather-widget-title {
+      font-size: 0.75rem;
+      text-align: center;
+      color: #ffffff;
+      text-shadow: 0 0 6px #0040ff;
+    }
+
+    .weather-frame {
+      flex: 1;
+      border: none;
+      width: 100%;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #000;
+    }
   </style>
 </head>
 <body>
@@ -161,10 +195,8 @@
     <p class="footer-text">Copyright ©Spegg 1998-2026</p>
   </div>
 
-  <!-- SIDEBAR WIDGET -->
+  <!-- SIDEBAR ALBUM WIDGET (RIGHT) -->
   <div class="album-widget">
-
-    <!-- TITLE -->
     <div class="album-widget-title">Favourite Albums</div>
 
     <!-- TOP ROW -->
@@ -200,8 +232,18 @@
         <img src="Deathconsciousness cover.jpg">
       </div>
     </div>
+  </div>
 
+  <!-- WEATHER WIDGET (LEFT) -->
+  <div class="weather-widget">
+    <div class="weather-widget-title">Live Weather – Museum Globe</div>
+    <iframe
+      class="weather-frame"
+      src="https://www.wral.com/video/nc-museum-of-naturals-sciences-globe-webcam/22062815/">
+    </iframe>
   </div>
 
 </body>
 </html>
+
+
