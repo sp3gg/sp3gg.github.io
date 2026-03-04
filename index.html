@@ -1,436 +1,457 @@
-# Spegg's Personal Website - Complete Code
-
-```html
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Spegg's personal website">
-    <title>Spegg's Personal Website</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <title>Spegg's Page</title>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: white;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+  <!-- IMPORT PRESS START 2P FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-        /* Starfield Background */
-        .star-field {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
+  <style>
+    body {
+      background-image: url('628b47d525-f948-18b8-52d9-6985c01b73.jpg');
+      background-size: cover;
+      background-repeat: repeat;
+      background-attachment: fixed;
 
-        .star {
-            position: absolute;
-            background-color: white;
-            border-radius: 50%;
-            animation: twinkle var(--duration, 5s) infinite ease-in-out;
-        }
+      font-family: 'Press Start 2P', monospace;
+      color: #333333;
+      text-align: center;
+      padding: 40px;
+      letter-spacing: 1px;
+      line-height: 1.5;
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
-        }
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        /* Center Panel */
-        .center-panel {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 50px auto;
-            max-width: 800px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
+    a { color: #ff7ac4; }
 
-        /* Time Display */
-        .time-display {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
+    /* ===== STARFIELD BACKGROUND ===== */
+    .star-field {
+      position: fixed;
+      inset: 0;
+      background: #000000;
+      overflow: hidden;
+      z-index: 0;
+    }
 
-        /* Weather Display */
-        .weather-display {
-            font-size: 2rem;
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
+    .star-field::before,
+    .star-field::after {
+      content: "";
+      position: absolute;
+      inset: -200px 0 0 0;
+      background-image:
+        radial-gradient(2px 2px at 10px 20px, #ffffff, transparent),
+        radial-gradient(2px 2px at 50px 80px, #ffffff, transparent),
+        radial-gradient(2px 2px at 130px 40px, #ffffff, transparent),
+        radial-gradient(2px 2px at 90px 120px, #ffffff, transparent),
+        radial-gradient(2px 2px at 170px 160px, #ffffff, transparent),
+        radial-gradient(2px 2px at 30px 200px, #ffffff, transparent),
+        radial-gradient(2px 2px at 200px 20px, #ffffff, transparent),
+        radial-gradient(2px 2px at 240px 100px, #ffffff, transparent);
+      background-size: 250px 250px;
+      opacity: 0.8;
+      animation: move-stars 40s linear infinite;
+    }
 
-        /* Moon Phase */
-        .moon-phase {
-            font-size: 3rem;
-            margin: 20px 0;
-        }
+    .star-field::after {
+      opacity: 0.5;
+      background-size: 300px 300px;
+      animation-duration: 70s;
+      animation-direction: reverse;
+    }
 
-        /* Album Section */
-        .album-section {
-            margin: 40px 0;
-        }
+    @keyframes move-stars {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-250px); }
+    }
 
-        .album-title {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #ffcc00;
-        }
+    /* ===== FULL MOON ORB (ARCS ACROSS SKY) ===== */
+    .moon-orb {
+      position: fixed;
+      top: 60px;          /* starting anchor height */
+      left: -80px;        /* start just off left side */
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;         /* behind glass panel, above stars */
+      display: block;
 
-        .album-container {
-            display: flex;
-            overflow-x: auto;
-            gap: 20px;
-            padding: 10px 0;
-            scrollbar-width: none;
-        }
+      background: radial-gradient(circle at 30% 30%, #ffffff, #c0c6ff);
+      box-shadow: 0 0 18px rgba(200, 210, 255, 0.95);
 
-        .album-container::-webkit-scrollbar {
-            display: none;
-        }
+      animation: move-moon 140s linear infinite;
+    }
 
-        .album-widget {
-            min-width: 200px;
-            height: 250px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            position: relative;
-            transition: transform 0.3s ease;
-        }
+    /* Moon moves in an arc: up, across, then back down */
+    @keyframes move-moon {
+      0% {
+        transform: translate(-10vw, 12vh);   /* low left */
+      }
+      50% {
+        transform: translate(45vw, -5vh);    /* highest point over middle */
+      }
+      100% {
+        transform: translate(110vw, 12vh);   /* low right, off screen */
+      }
+    }
 
-        .album-widget:hover {
-            transform: translateY(-10px);
-        }
+    /* ===== GLASS CENTER PANEL WITH SOFT GLOW ===== */
+    .center-panel {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 214, 240, 0.75),
+        rgba(198, 231, 255, 0.75)
+      );
+      backdrop-filter: blur(6px);
+      z-index: 2;
+      pointer-events: none;
 
-        .album-widget img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+      box-shadow:
+        0 0 30px rgba(200, 200, 255, 0.25),
+        0 0 60px rgba(200, 200, 255, 0.18),
+        0 0 100px rgba(200, 200, 255, 0.12);
+    }
 
-        /* Sun/Moon Toggle */
-        .toggle-container {
-            margin: 30px 0;
-        }
+    /* ===== CONTENT ===== */
+    .content-container {
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      z-index: 3;
+    }
 
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
+    .info-card {
+      background: rgba(255,255,255,0.9);
+      padding: 20px;
+      border-radius: 16px;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      border: 2px dotted #ffb8e6;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.12);
+    }
 
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
+    .page-title {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      line-height: 1.4;
+      color: #ff4f9e;
+      text-shadow: 0 2px 0 #ffffff;
+    }
 
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
+    .footer-text {
+      opacity: 0.7;
+      font-size: 0.7rem;
+      margin-top: 10px;
+      color: #555;
+    }
 
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
+    /* ===== ALBUM WIDGET ===== */
+    .album-widget {
+      position: fixed;
+      top: 80px;
+      right: 40px;
+      width: 300px;
+      background: rgba(255,255,255,0.9);
+      border: 2px solid #ffb8e6;
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+      z-index: 5;
+    }
 
-        input:checked + .slider {
-            background-color: #ffcc00;
-        }
+    .album-widget-title {
+      font-size: 0.7rem;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #ff4f9e;
+      text-shadow: 0 1px 0 #ffffff;
+    }
 
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
+    .album-strip-wrapper {
+      width: 100%;
+      overflow: hidden;
+      padding: 6px 0;
+      border-top: 1px dashed #ffcce8;
+      border-bottom: 1px dashed #ffcce8;
+      margin-bottom: 8px;
+    }
 
-        /* YouTube Player */
-        .youtube-player {
-            width: 100%;
-            height: 300px;
-            margin: 30px 0;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-        }
+    .album-strip {
+      display: flex;
+      gap: 12px;
+    }
 
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-        }
+    .album-strip img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid #ffcce8;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+      background: #fff;
+    }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .time-display {
-                font-size: 2.5rem;
-            }
-            
-            .weather-display {
-                font-size: 1.5rem;
-            }
-            
-            .album-widget {
-                min-width: 150px;
-                height: 200px;
-            }
-            
-            .youtube-player {
-                height: 200px;
-            }
-        }
-    </style>
+    .strip-top { animation: slide-left 22s linear infinite; }
+    .strip-bottom { animation: slide-right 22s linear infinite; }
+
+    @keyframes slide-left { 0% {transform: translateX(0);} 100% {transform: translateX(-50%);} }
+    @keyframes slide-right { 0% {transform: translateX(-50%);} 100% {transform: translateX(0);} }
+
+    /* ===== LIVE FEED + WEATHER WIDGET ===== */
+    .weather-widget {
+      position: fixed;
+      top: 80px;
+      left: 40px;
+      width: 320px;
+      background: rgba(255,255,255,0.9);
+      border: 2px solid #c6e7ff;
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .weather-widget-title {
+      font-size: 0.7rem;
+      text-align: center;
+      color: #3b7dff;
+      text-shadow: 0 1px 0 #ffffff;
+    }
+
+    .weather-frame {
+      height: 180px;
+      width: 100%;
+      border-radius: 10px;
+      border: none;
+      background: #000;
+    }
+
+    .weather-data {
+      font-size: 0.65rem;
+      text-align: center;
+      padding: 4px 0 6px;
+      color: #333;
+    }
+
+    /* ===== CLOCK WIDGET ===== */
+    .clock-widget {
+      position: fixed;
+      top: 420px;
+      left: 40px;
+      width: 320px;
+      background: rgba(255,255,255,0.9);
+      border: 2px solid #ffb8e6;
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .clock-widget-title {
+      font-size: 0.7rem;
+      color: #ff4f9e;
+      text-shadow: 0 1px 0 #ffffff;
+    }
+
+    .clock-display {
+      font-size: 0.9rem;
+      color: #333;
+      background: #fff;
+      padding: 8px 14px;
+      border-radius: 12px;
+      border: 1px dashed #ffcce8;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    .date-display {
+      font-size: 0.7rem;
+      color: #555;
+      margin-top: -2px;
+    }
+
+  </style>
 </head>
 <body>
-    <!-- Starfield Background -->
-    <div class="star-field" id="starField"></div>
 
-    <!-- Center Panel -->
-    <div class="center-panel">
-        <h1>✨ Spegg's Personal Website ✨</h1>
-        
-        <!-- Time Display -->
-        <div class="time-display" id="timeDisplay">00:00:00</div>
-        
-        <!-- Weather Display -->
-        <div class="weather-display" id="weather">🌡️ Loading weather...</div>
-        
-        <!-- Moon Phase -->
-        <div class="moon-phase" id="moonPhase">🌑</div>
-        
-        <!-- Sun/Moon Toggle -->
-        <div class="toggle-container">
-            <label class="toggle-switch">
-                <input type="checkbox" id="sunMoonToggle">
-                <span class="slider"></span>
-            </label>
-            <span id="toggleLabel">☀️ Day Mode</span>
-        </div>
-        
-        <!-- Album Section -->
-        <div class="album-section">
-            <h2 class="album-title">🎵 My Favorite Albums 🎵</h2>
-            <div class="album-container" id="albumContainer">
-                <!-- Album widgets will be generated here -->
-            </div>
-        </div>
-        
-        <!-- YouTube Player -->
-        <div class="youtube-player">
-            <iframe 
-                width="100%" 
-                height="100%" 
-                src="https://www.youtube.com/embed/7Jd3g4FZr7s?autoplay=1&mute=1" 
-                title="YouTube video player" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
-            </iframe>
-        </div>
-    </div>
-    
-    <!-- Footer -->
-    <div class="footer">
-        <p>© 2023 Spegg's Personal Website | Made with ❤️</p>
+  <!-- STARFIELD & FULL MOON -->
+  <div class="star-field"></div>
+  <div class="moon-orb"></div>
+
+  <!-- CENTER GLASS PANEL -->
+  <div class="center-panel"></div>
+
+  <!-- CENTER CONTENT -->
+  <div class="content-container">
+    <h1 class="page-title">I AM SPEGG BE SCARED</h1>
+
+    <div class="info-card">
+      Alright y'all welcome to the site. I'm just gonna put some mildly interesting things on here for you to look at. BIG CHEESE!!!! :))))
     </div>
 
-    <script>
-        // Create starfield background
-        function createStarfield() {
-            const starField = document.getElementById('starField');
-            const starCount = 200;
-            
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                
-                // Random position
-                const x = Math.random() * 100;
-                const y = Math.random() * 100;
-                
-                // Random size
-                const size = Math.random() * 3;
-                
-                // Random animation duration
-                const duration = 2 + Math.random() * 8;
-                
-                star.style.left = `${x}%`;
-                star.style.top = `${y}%`;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.setProperty('--duration', `${duration}s`);
-                
-                starField.appendChild(star);
-            }
-        }
+    <div class="info-card">
+      Just punching in bs here to see what's up and where everything is alligned on the page.
+    </div>
 
-        // Update time display
-        function updateRaleighClock() {
-            const now = new Date();
-            const options = { 
-                timeZone: 'America/New_York',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            };
-            
-            const timeString = now.toLocaleTimeString('en-US', options);
-            document.getElementById('timeDisplay').textContent = timeString;
-        }
+    <p class="footer-text">Copyright © Spegg 1998-2026</p>
+  </div>
 
-        // Update weather display
-        async function updateWeather() {
-            try {
-                const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=35.78&longitude=-78.64&current_weather=true&temperature_unit=fahrenheit");
-                if (!res.ok) throw new Error('Network response was not ok');
-                const data = await res.json();
-                
-                const temperature = data.current_weather.temperature;
-                const weatherCode = data.current_weather.weather_code;
-                
-                // Map weather codes to emojis (simplified)
-                let emoji = '🌤️';
-                if (weatherCode >= 50 && weatherCode <= 99) emoji = '🌧️';
-                else if (weatherCode >= 300 && weatherCode <= 399) emoji = '⛈️';
-                else if (weatherCode >= 100 && weatherCode <= 199) emoji = '☁️';
-                
-                document.getElementById('weather').innerHTML = `${emoji} ${temperature}°F`;
-            } catch (error) {
-                console.error("Failed to fetch weather:", error);
-                document.getElementById('weather').textContent = "🌡️ Weather unavailable";
-            }
-        }
+  <!-- ALBUM WIDGET -->
+  <div class="album-widget">
+    <div class="album-widget-title">♡ Favourite Albums ♡</div>
+    <div class="album-strip-wrapper">
+      <div class="album-strip strip-top">
+        <img src="when the lights go out cover.jpg">
+        <img src="kotms cover.jpg">
+        <img src="World cover.jpg">
+        <img src="Tremendous sea of love cover.jpg">
+        <img src="Nurture cover.jpg">
 
-        // Get moon phase index
-        function getMoonPhaseIndex() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth() + 1;
-            const day = now.getDate();
-            
-            // Simplified moon phase calculation (approximate)
-            const c = (year - 2000) * 365.25;
-            const d = c + (month - 1) * 30 + day;
-            const phase = (d % 29.53) / 29.53;
-            
-            // Convert to emoji index
-            if (phase < 0.125 || phase > 0.875) return 0; // New Moon
-            if (phase < 0.25) return 1; // Waxing Crescent
-            if (phase < 0.375) return 2; // First Quarter
-            if (phase < 0.5) return 3; // Waxing Gibbous
-            if (phase < 0.625) return 4; // Full Moon
-            if (phase < 0.75) return 5; // Waning Gibbous
-            if (phase < 0.875) return 6; // Last Quarter
-            return 7; // Waning Crescent
-        }
+        <img src="when the lights go out cover.jpg">
+        <img src="kotms cover.jpg">
+        <img src="World cover.jpg">
+        <img src="Tremendous sea of love cover.jpg">
+        <img src="Nurture cover.jpg">
+      </div>
+    </div>
 
-        // Update moon phase display
-        function updateMoonPhase() {
-            const moonPhases = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
-            const index = getMoonPhaseIndex();
-            document.getElementById('moonPhase').textContent = moonPhases[index];
-        }
+    <div class="album-strip-wrapper">
+      <div class="album-strip strip-bottom">
+        <img src="Junk cover.jpg">
+        <img src="In Rainbows cover.jpg">
+        <img src="Gossamer cover.jpg">
+        <img src="Getting Killed cover.jpg">
+        <img src="Deathconsciousness cover.jpg">
 
-        // Create album widgets
-        function createAlbumWidgets() {
-            const albums = [
-                { title: "When the Lights Go Out", cover: "when the lights go out cover.jpg" },
-                { title: "Bloom", cover: "bloom cover.jpg" },
-                { title: "The Night We Met", cover: "the night we met cover.jpg" },
-                { title: "Crimson", cover: "crimson cover.jpg" },
-                { title: "Midnight City", cover: "midnight city cover.jpg" },
-                { title: "Echoes", cover: "echoes cover.jpg" },
-                { title: "Starlight", cover: "starlight cover.jpg" },
-                { title: "Velvet", cover: "velvet cover.jpg" }
-            ];
-            
-            const container = document.getElementById('albumContainer');
-            
-            // Create 3 copies for seamless looping
-            for (let i = 0; i < 3; i++) {
-                albums.forEach(album => {
-                    const widget = document.createElement('div');
-                    widget.className = 'album-widget';
-                    widget.innerHTML = `
-                        <img src="${album.cover}" alt="${album.title} Album Cover">
-                    `;
-                    container.appendChild(widget);
-                });
-            }
-        }
+        <img src="Junk cover.jpg">
+        <img src="In Rainbows cover.jpg">
+        <img src="Gossamer cover.jpg">
+        <img src="Getting Killed cover.jpg">
+        <img src="Deathconsciousness cover.jpg">
+      </div>
+    </div>
+  </div>
 
-        // Toggle sun/moon mode
-        function toggleSunMoon() {
-            const sunMoonToggle = document.getElementById('sunMoonToggle');
-            const toggleLabel = document.getElementById('toggleLabel');
-            const body = document.body;
-            
-            if (sunMoonToggle.checked) {
-                body.style.background = 'linear-gradient(135deg, #87CEEB, #E0F7FA)';
-                toggleLabel.textContent = '🌙 Night Mode';
-            } else {
-                body.style.background = 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)';
-                toggleLabel.textContent = '☀️ Day Mode';
-            }
-        }
+  <!-- LIVE FEED + WEATHER -->
+  <div class="weather-widget">
+    <div class="weather-widget-title">☆ What Spegg Sees Outside ☆</div>
+    <iframe class="weather-frame"
+      src="https://www.youtube.com/embed/-MWn7E2O-_o?autoplay=1&mute=1&rel=0"
+      title="Live Cam"
+      allowfullscreen>
+    </iframe>
+    <div class="weather-data" id="weather"></div>
+  </div>
 
-        // Initialize everything
-        function init() {
-            createStarfield();
-            updateRaleighClock();
-            updateWeather();
-            updateMoonPhase();
-            createAlbumWidgets();
-            
-            // Set up intervals
-            setInterval(updateRaleighClock, 1000);
-            setInterval(updateWeather, 300000); // Update weather every 5 minutes
-            setInterval(updateMoonPhase, 3600000); // Update moon phase every hour
-            
-            // Set up toggle event listener
-            document.getElementById('sunMoonToggle').addEventListener('change', toggleSunMoon);
-        }
+  <!-- CLOCK -->
+  <div class="clock-widget">
+    <div class="clock-widget-title">♡ Raleigh Time ♡</div>
+    <div class="clock-display" id="clock"></div>
+    <div class="date-display" id="date"></div>
+  </div>
 
-        // Start the page
-        window.onload = init;
-    </script>
+  <!-- WEATHER + CLOCK SCRIPT -->
+  <script>
+    /* CLOCK */
+    function updateRaleighClock() {
+      const time = new Date().toLocaleString("en-US", {
+        timeZone: "America/New_York",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true
+      });
+
+      const date = new Date().toLocaleDateString("en-US", {
+        timeZone: "America/New_York",
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+      });
+
+      document.getElementById("clock").textContent = time;
+      document.getElementById("date").textContent = date;
+    }
+
+    setInterval(updateRaleighClock, 1000);
+    updateRaleighClock();
+
+    /* WEATHER */
+    async function updateWeather() {
+      try {
+        const res = await fetch("https://api.open-meteo.com/v1/forecast?latitude=35.78&longitude=-78.64&current_weather=true&temperature_unit=fahrenheit");
+        const data = await res.json();
+
+        const temp = Math.round(data.current_weather.temperature);
+        const code = data.current_weather.weathercode;
+
+        const conditionMap = {
+          0: "Sunny",
+          1: "Mainly Sunny",
+          2: "Partly Cloudy",
+          3: "Cloudy",
+          45: "Foggy",
+          48: "Icy Fog",
+          51: "Light Drizzle",
+          61: "Light Rain",
+          63: "Rain",
+          65: "Heavy Rain",
+          71: "Snow",
+          80: "Showers",
+          95: "Thunderstorms"
+        };
+
+        const emojiMap = {
+          "Sunny": "☀️",
+          "Mainly Sunny": "🌤️",
+          "Partly Cloudy": "⛅",
+          "Cloudy": "☁️",
+          "Foggy": "🌫️",
+          "Icy Fog": "🌫️",
+          "Light Drizzle": "🌦️",
+          "Light Rain": "🌧️",
+          "Rain": "🌧️",
+          "Heavy Rain": "⛈️",
+          "Showers": "🌦️",
+          "Thunderstorms": "⛈️",
+          "Snow": "❄️"
+        };
+
+        const conditions = conditionMap[code] || "Weather";
+        const emoji = emojiMap[conditions] || "🌡️";
+
+        document.getElementById("weather").textContent =
+          `${emoji} ${temp}°F — ${conditions}`;
+      } catch {
+        document.getElementById("weather").textContent = "🌡️ Weather unavailable";
+      }
+    }
+
+    updateWeather();
+    setInterval(updateWeather, 900000); // 15 min
+  </script>
+
 </body>
 </html>
-```
