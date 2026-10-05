@@ -1,50 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Spegg</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  >
-
   <style>
 
-    /* =========================
-       BASIC PAGE
-    ========================= */
+    /* ==============================
+       BASIC RESET
+    ============================== */
 
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
     }
 
     html,
     body {
-      width: 100%;
+      margin: 0;
       min-height: 100%;
     }
 
     body {
-      font-family: "Inter", sans-serif;
-      color: white;
-
-      background:
-        radial-gradient(
-          circle at top,
-          #15203d 0%,
-          #080b18 45%,
-          #020309 100%
-        );
-
       min-height: 100vh;
+
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      color: #ffffff;
 
       display: flex;
       justify-content: center;
@@ -52,113 +45,133 @@
 
       padding: 50px 20px;
 
+      background-color: #03050d;
+
       overflow-x: hidden;
     }
 
 
-    /* =========================
-       STAR BACKGROUND
-    ========================= */
+    /* ==============================
+       STATIC STARFIELD
 
-    .stars {
+       No animation.
+       No JavaScript.
+       No giant moving layers.
+    ============================== */
+
+    .starfield {
       position: fixed;
       inset: 0;
-
-      overflow: hidden;
 
       pointer-events: none;
 
       z-index: 0;
-    }
 
-
-    .stars::before,
-    .stars::after {
-
-      content: "";
-
-      position: absolute;
-
-      width: 100%;
-      height: 200%;
-
-      top: 0;
-      left: 0;
+      background-color: #03050d;
 
       background-image:
 
         radial-gradient(
-          1px 1px at 20px 30px,
-          white,
-          transparent
+          circle at 10% 20%,
+          rgba(255,255,255,0.9) 0 1px,
+          transparent 1.5px
         ),
 
         radial-gradient(
-          1px 1px at 80px 120px,
-          white,
-          transparent
+          circle at 25% 70%,
+          rgba(255,255,255,0.65) 0 1px,
+          transparent 1.5px
         ),
 
         radial-gradient(
-          2px 2px at 150px 50px,
-          white,
-          transparent
+          circle at 40% 35%,
+          rgba(255,255,255,0.8) 0 1px,
+          transparent 1.5px
         ),
 
         radial-gradient(
-          1px 1px at 200px 180px,
-          white,
-          transparent
+          circle at 55% 80%,
+          rgba(255,255,255,0.5) 0 1px,
+          transparent 1.5px
         ),
 
         radial-gradient(
-          1px 1px at 260px 90px,
-          white,
-          transparent
+          circle at 70% 25%,
+          rgba(255,255,255,0.85) 0 1px,
+          transparent 1.5px
         ),
 
         radial-gradient(
-          2px 2px at 340px 210px,
-          white,
-          transparent
+          circle at 85% 65%,
+          rgba(255,255,255,0.7) 0 1px,
+          transparent 1.5px
+        ),
+
+        radial-gradient(
+          circle at 93% 15%,
+          rgba(255,255,255,0.55) 0 1px,
+          transparent 1.5px
+        ),
+
+        radial-gradient(
+          circle at 15% 90%,
+          rgba(255,255,255,0.6) 0 1px,
+          transparent 1.5px
         );
 
-      background-size: 400px 250px;
-
-      animation:
-        stars-move 70s linear infinite;
+      background-size:
+        330px 330px,
+        410px 410px,
+        500px 500px,
+        370px 370px,
+        460px 460px,
+        520px 520px,
+        390px 390px,
+        480px 480px;
     }
 
 
-    .stars::after {
+    /* ==============================
+       SUBTLE SPACE GLOW
 
-      opacity: 0.45;
+       Static gradients only.
+    ============================== */
 
-      background-size: 500px 320px;
+    .space-glow {
+      position: fixed;
+      inset: 0;
 
-      animation-duration: 110s;
+      pointer-events: none;
+
+      z-index: 1;
+
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(72, 97, 160, 0.18),
+          transparent 45%
+        ),
+
+        radial-gradient(
+          circle at 15% 80%,
+          rgba(74, 56, 125, 0.10),
+          transparent 35%
+        );
     }
 
 
-    @keyframes stars-move {
+    /* ==============================
+       MAIN GLASS PANEL
 
-      from {
-        transform: translateY(0);
-      }
+       IMPORTANT:
+       No backdrop-filter here.
 
-      to {
-        transform: translateY(-50%);
-      }
-
-    }
-
-
-    /* =========================
-       MAIN GLASS CONTAINER
-    ========================= */
+       The translucent gradients,
+       border and shadows create
+       the glass appearance instead.
+    ============================== */
 
     .page {
-
       position: relative;
 
       z-index: 2;
@@ -168,39 +181,38 @@
 
       min-height: 700px;
 
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255,255,255,0.11),
-          rgba(255,255,255,0.04)
-        );
+      overflow: hidden;
+
+      border-radius: 28px;
 
       border:
         1px solid
         rgba(255,255,255,0.18);
 
-      border-radius: 28px;
-
-      backdrop-filter: blur(18px);
-
-      -webkit-backdrop-filter: blur(18px);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(34, 41, 63, 0.88),
+          rgba(14, 18, 31, 0.82)
+        );
 
       box-shadow:
+        0 20px 50px
+        rgba(0,0,0,0.42),
 
-        0 20px 60px
-        rgba(0,0,0,0.45),
+        0 0 35px
+        rgba(125,150,210,0.08),
 
         inset 0 1px 0
-        rgba(255,255,255,0.12);
-
-      overflow: hidden;
+        rgba(255,255,255,0.16);
     }
 
 
-    /* subtle glass shine */
+    /* ==============================
+       FAKE GLASS REFLECTION
+    ============================== */
 
     .page::before {
-
       content: "";
 
       position: absolute;
@@ -209,31 +221,51 @@
       left: 0;
 
       width: 100%;
-      height: 180px;
+      height: 220px;
+
+      pointer-events: none;
 
       background:
         linear-gradient(
-          to bottom,
-          rgba(255,255,255,0.06),
+          180deg,
+          rgba(255,255,255,0.055),
           transparent
         );
-
-      pointer-events: none;
     }
 
 
-    /* =========================
+    /* tiny edge highlight */
+
+    .page::after {
+      content: "";
+
+      position: absolute;
+
+      inset: 1px;
+
+      border-radius: 27px;
+
+      pointer-events: none;
+
+      border:
+        1px solid
+        rgba(255,255,255,0.025);
+    }
+
+
+    /* ==============================
        NAVIGATION
-    ========================= */
+    ============================== */
 
     nav {
+      position: relative;
+
+      z-index: 2;
 
       height: 75px;
 
       display: flex;
-
       align-items: center;
-
       justify-content: space-between;
 
       padding: 0 35px;
@@ -245,7 +277,6 @@
 
 
     .logo {
-
       font-size: 18px;
 
       font-weight: 600;
@@ -255,7 +286,6 @@
 
 
     .nav-links {
-
       display: flex;
 
       gap: 25px;
@@ -263,38 +293,37 @@
 
 
     .nav-links a {
-
       color:
-        rgba(255,255,255,0.65);
+        rgba(255,255,255,0.60);
 
       text-decoration: none;
 
       font-size: 14px;
 
-      transition: 0.2s;
+      transition:
+        color 0.15s ease;
     }
 
 
     .nav-links a:hover {
-
-      color: white;
+      color: #ffffff;
     }
 
 
-    /* =========================
-       HERO SECTION
-    ========================= */
+    /* ==============================
+       HERO
+    ============================== */
 
     .hero {
+      position: relative;
+
+      z-index: 2;
 
       min-height: 500px;
 
       display: flex;
-
       flex-direction: column;
-
       align-items: center;
-
       justify-content: center;
 
       text-align: center;
@@ -304,6 +333,8 @@
 
 
     .hero h1 {
+      margin:
+        0 0 20px;
 
       font-size:
         clamp(
@@ -314,77 +345,71 @@
 
       font-weight: 500;
 
-      letter-spacing: -3px;
-
-      margin-bottom: 20px;
+      letter-spacing:
+        -3px;
     }
 
 
     .hero p {
+      margin: 0;
 
-      max-width: 600px;
+      max-width:
+        600px;
 
       color:
         rgba(255,255,255,0.60);
 
-      font-size: 16px;
+      font-size:
+        16px;
 
-      line-height: 1.8;
+      line-height:
+        1.8;
     }
 
 
-    /* =========================
+    /* ==============================
        SMALL GLASS CARD
-    ========================= */
+
+       Also no blur.
+    ============================== */
 
     .small-card {
-
-      margin-top: 35px;
+      margin-top:
+        35px;
 
       padding:
         16px 24px;
 
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          0.07
-        );
-
-      border:
-        1px solid
-        rgba(
-          255,
-          255,
-          255,
-          0.12
-        );
-
       border-radius:
         16px;
 
+      border:
+        1px solid
+        rgba(255,255,255,0.12);
+
+      background:
+        rgba(255,255,255,0.055);
+
+      box-shadow:
+        inset 0 1px 0
+        rgba(255,255,255,0.08);
+
       color:
-        rgba(
-          255,
-          255,
-          255,
-          0.75
-        );
+        rgba(255,255,255,0.72);
 
       font-size:
         14px;
-
-      backdrop-filter:
-        blur(10px);
     }
 
 
-    /* =========================
+    /* ==============================
        FOOTER
-    ========================= */
+    ============================== */
 
     footer {
+      position: relative;
+
+      z-index: 2;
 
       padding:
         22px;
@@ -393,66 +418,49 @@
         center;
 
       color:
-        rgba(
-          255,
-          255,
-          255,
-          0.35
-        );
+        rgba(255,255,255,0.30);
 
       font-size:
         12px;
 
       border-top:
         1px solid
-        rgba(
-          255,
-          255,
-          255,
-          0.08
-        );
+        rgba(255,255,255,0.07);
     }
 
 
-    /* =========================
+    /* ==============================
        MOBILE
-    ========================= */
+    ============================== */
 
-    @media
-    (max-width: 700px) {
+    @media (max-width: 700px) {
 
       body {
-
         padding:
           20px 12px;
       }
 
       .page {
-
         border-radius:
           20px;
       }
 
       nav {
-
         padding:
           0 20px;
       }
 
       .nav-links {
-
         gap:
           15px;
       }
 
       .nav-links a {
-
         font-size:
           12px;
       }
 
       .hero {
-
         padding:
           40px 20px;
       }
@@ -465,17 +473,11 @@
 
 <body>
 
-  <!-- STAR BACKGROUND -->
+  <div class="starfield"></div>
+  <div class="space-glow"></div>
 
-  <div class="stars"></div>
-
-
-  <!-- MAIN GLASS PAGE -->
 
   <main class="page">
-
-
-    <!-- NAVIGATION -->
 
     <nav>
 
@@ -502,8 +504,6 @@
     </nav>
 
 
-    <!-- MAIN CONTENT -->
-
     <section class="hero">
 
       <h1>
@@ -516,23 +516,17 @@
         so things may appear here without warning.
       </p>
 
+
       <div class="small-card">
-
         ✦ floating somewhere in cyberspace ✦
-
       </div>
 
     </section>
 
 
-    <!-- FOOTER -->
-
     <footer>
-
       © Spegg 2026
-
     </footer>
-
 
   </main>
 
