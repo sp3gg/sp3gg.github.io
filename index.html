@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Spegg</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    /* =========================
+       BASIC PAGE
+    ========================= */
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      color: white;
+
+      background:
+        radial-gradient(
+          circle at top,
+          #15203d 0%,
+          #080b18 45%,
+          #020309 100%
+        );
+
+      min-height: 100vh;
+
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+
+      padding: 50px 20px;
+
+      overflow-x: hidden;
+    }
+
+
+    /* =========================
+       STAR BACKGROUND
+    ========================= */
+
+    .stars {
+      position: fixed;
+      inset: 0;
+
+      overflow: hidden;
+
+      pointer-events: none;
+
+      z-index: 0;
+    }
+
+
+    .stars::before,
+    .stars::after {
+
+      content: "";
+
+      position: absolute;
+
+      width: 100%;
+      height: 200%;
+
+      top: 0;
+      left: 0;
+
+      background-image:
+
+        radial-gradient(
+          1px 1px at 20px 30px,
+          white,
+          transparent
+        ),
+
+        radial-gradient(
+          1px 1px at 80px 120px,
+          white,
+          transparent
+        ),
+
+        radial-gradient(
+          2px 2px at 150px 50px,
+          white,
+          transparent
+        ),
+
+        radial-gradient(
+          1px 1px at 200px 180px,
+          white,
+          transparent
+        ),
+
+        radial-gradient(
+          1px 1px at 260px 90px,
+          white,
+          transparent
+        ),
+
+        radial-gradient(
+          2px 2px at 340px 210px,
+          white,
+          transparent
+        );
+
+      background-size: 400px 250px;
+
+      animation:
+        stars-move 70s linear infinite;
+    }
+
+
+    .stars::after {
+
+      opacity: 0.45;
+
+      background-size: 500px 320px;
+
+      animation-duration: 110s;
+    }
+
+
+    @keyframes stars-move {
+
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(-50%);
+      }
+
+    }
+
+
+    /* =========================
+       MAIN GLASS CONTAINER
+    ========================= */
+
+    .page {
+
+      position: relative;
+
+      z-index: 2;
+
+      width: 100%;
+      max-width: 1000px;
+
+      min-height: 700px;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,0.11),
+          rgba(255,255,255,0.04)
+        );
+
+      border:
+        1px solid
+        rgba(255,255,255,0.18);
+
+      border-radius: 28px;
+
+      backdrop-filter: blur(18px);
+
+      -webkit-backdrop-filter: blur(18px);
+
+      box-shadow:
+
+        0 20px 60px
+        rgba(0,0,0,0.45),
+
+        inset 0 1px 0
+        rgba(255,255,255,0.12);
+
+      overflow: hidden;
+    }
+
+
+    /* subtle glass shine */
+
+    .page::before {
+
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width: 100%;
+      height: 180px;
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(255,255,255,0.06),
+          transparent
+        );
+
+      pointer-events: none;
+    }
+
+
+    /* =========================
+       NAVIGATION
+    ========================= */
+
+    nav {
+
+      height: 75px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      padding: 0 35px;
+
+      border-bottom:
+        1px solid
+        rgba(255,255,255,0.08);
+    }
+
+
+    .logo {
+
+      font-size: 18px;
+
+      font-weight: 600;
+
+      letter-spacing: 2px;
+    }
+
+
+    .nav-links {
+
+      display: flex;
+
+      gap: 25px;
+    }
+
+
+    .nav-links a {
+
+      color:
+        rgba(255,255,255,0.65);
+
+      text-decoration: none;
+
+      font-size: 14px;
+
+      transition: 0.2s;
+    }
+
+
+    .nav-links a:hover {
+
+      color: white;
+    }
+
+
+    /* =========================
+       HERO SECTION
+    ========================= */
+
+    .hero {
+
+      min-height: 500px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      justify-content: center;
+
+      text-align: center;
+
+      padding: 60px 30px;
+    }
+
+
+    .hero h1 {
+
+      font-size:
+        clamp(
+          40px,
+          8vw,
+          80px
+        );
+
+      font-weight: 500;
+
+      letter-spacing: -3px;
+
+      margin-bottom: 20px;
+    }
+
+
+    .hero p {
+
+      max-width: 600px;
+
+      color:
+        rgba(255,255,255,0.60);
+
+      font-size: 16px;
+
+      line-height: 1.8;
+    }
+
+
+    /* =========================
+       SMALL GLASS CARD
+    ========================= */
+
+    .small-card {
+
+      margin-top: 35px;
+
+      padding:
+        16px 24px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.07
+        );
+
+      border:
+        1px solid
+        rgba(
+          255,
+          255,
+          255,
+          0.12
+        );
+
+      border-radius:
+        16px;
+
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          0.75
+        );
+
+      font-size:
+        14px;
+
+      backdrop-filter:
+        blur(10px);
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+
+      padding:
+        22px;
+
+      text-align:
+        center;
+
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          0.35
+        );
+
+      font-size:
+        12px;
+
+      border-top:
+        1px solid
+        rgba(
+          255,
+          255,
+          255,
+          0.08
+        );
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media
+    (max-width: 700px) {
+
+      body {
+
+        padding:
+          20px 12px;
+      }
+
+      .page {
+
+        border-radius:
+          20px;
+      }
+
+      nav {
+
+        padding:
+          0 20px;
+      }
+
+      .nav-links {
+
+        gap:
+          15px;
+      }
+
+      .nav-links a {
+
+        font-size:
+          12px;
+      }
+
+      .hero {
+
+        padding:
+          40px 20px;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <!-- STAR BACKGROUND -->
+
+  <div class="stars"></div>
+
+
+  <!-- MAIN GLASS PAGE -->
+
+  <main class="page">
+
+
+    <!-- NAVIGATION -->
+
+    <nav>
+
+      <div class="logo">
+        SPEGG
+      </div>
+
+      <div class="nav-links">
+
+        <a href="#">
+          Home
+        </a>
+
+        <a href="#">
+          About
+        </a>
+
+        <a href="#">
+          Stuff
+        </a>
+
+      </div>
+
+    </nav>
+
+
+    <!-- MAIN CONTENT -->
+
+    <section class="hero">
+
+      <h1>
+        hello.
+      </h1>
+
+      <p>
+        Welcome to my little corner of the internet.
+        This site is still under construction,
+        so things may appear here without warning.
+      </p>
+
+      <div class="small-card">
+
+        ✦ floating somewhere in cyberspace ✦
+
+      </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+      © Spegg 2026
+
+    </footer>
+
+
+  </main>
+
+</body>
+</html>
